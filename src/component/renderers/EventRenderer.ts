@@ -87,7 +87,6 @@ export default class EventRenderer {
         for (let fgRange in fgRanges) {
           let eventStartDate = fgRanges[fgRange].eventInstance.def.dateProfile.start
           if (eventStartDate.format('YYYY-MM-DD') === ev.target.dataset.date.toString()) {
-            console.log('xxxx')
             htmlBasicViewEventList += fgRanges[fgRange].eventDef.title + '--->' + eventStartDate.format('HH:mm') + '<br>'
           }
         }
