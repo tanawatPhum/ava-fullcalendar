@@ -90,3 +90,60 @@
     display: inline-block;
     min-width: 1.25em;
 }
+
+
+
+@media only screen and (min-width : 320px) and (max-width : 480px) { 
+
+
+    .fc-row.fc-rigid .fc-content-skeleton { 
+      position: absolute; 
+      top: 40%; 
+      left: 0; 
+      right: 0; 
+      text-align: center; 
+    } 
+
+
+    .fc-ltr .fc-basic-view .fc-day-top .fc-day-number { 
+      // float: right; 
+      float: unset !important; 
+    } 
+
+
+    .fc-rtl .fc-basic-view .fc-day-top .fc-week-number { 
+      float: right; 
+      border-radius: 0 0 0 3px; 
+    } 
+
+
+    /* when week/day number have own column */ 
+
+    .fc-basic-view td.fc-week-number { 
+      text-align: center; 
+    } 
+
+
+
+    .fc-unthemed th, 
+    .fc-unthemed td, 
+    .fc-unthemed thead, 
+    .fc-unthemed tbody, 
+    .fc-unthemed .fc-divider, 
+    .fc-unthemed .fc-row, 
+    .fc-unthemed .fc-content, 
+    .fc-unthemed .fc-popover, 
+    .fc-unthemed .fc-list-view, 
+    .fc-unthemed .fc-list-heading td { 
+      border-color: #fff0 !important; 
+    } 
+
+    .fc-toolbar.fc-header-toolbar { 
+      padding: 0 1.5rem; 
+      margin-bottom: 2em; 
+    } 
+
+    // body .fc { 
+    // font-size: 2em; 
+    // } 
+  }
