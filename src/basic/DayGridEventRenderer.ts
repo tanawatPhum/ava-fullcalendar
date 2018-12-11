@@ -261,7 +261,7 @@ export default class DayGridEventRenderer extends EventRenderer {
       '</span>'
     let htmlReturn = ''
     if (window['isMobile']) {
-      htmlReturn = '<div>xx</div>'
+      htmlReturn = '<div class="dot-event"></div>'
     } else {
       htmlReturn = '<a class="' + classes.join(' ') + '"' +
       (eventDef.url ?
