@@ -82,11 +82,12 @@ export default class EventRenderer {
     this.renderFgRanges(fgRanges)
 
     if ( this.view.type === 'month' && window['isMobile']) {
-      $('.fc-day').click((ev: any ) => {
+      $('td .fc-day').click((ev: any ) => {
         let htmlBasicViewEventList = ''
         for (let fgRange in fgRanges) {
           let eventStartDate = fgRanges[fgRange].eventInstance.def.dateProfile.start
           if (eventStartDate.format('YYYY-MM-DD') === ev.target.dataset.date.toString()) {
+            console.log('xxxx')
             htmlBasicViewEventList += fgRanges[fgRange].eventDef.title + '--->' + eventStartDate.format('HH:mm') + '<br>'
           }
         }
