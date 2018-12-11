@@ -82,7 +82,6 @@ export default class Calendar {
 
     this.optionsManager = new OptionsManager(this, overrides)
     this.viewSpecManager = new ViewSpecManager(this.optionsManager, this)
-    console.log(this.viewSpecManager);
     this.initMomentInternals() // needs to happen after options hash initialized
     this.initCurrentDate()
     this.initEventManager()

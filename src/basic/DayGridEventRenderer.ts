@@ -259,33 +259,38 @@ export default class DayGridEventRenderer extends EventRenderer {
       '<span class="fc-title">' +
         (htmlEscape(eventDef.title || '') || '&nbsp;') + // we always want one line of height
       '</span>'
-
-    return '<a class="' + classes.join(' ') + '"' +
-        (eventDef.url ?
-          ' href="' + htmlEscape(eventDef.url) + '"' :
-          ''
+    let htmlReturn = ''
+    if (window['isMobile']) {
+      htmlReturn = '<div>xx</div>'
+    } else {
+      htmlReturn = '<a class="' + classes.join(' ') + '"' +
+      (eventDef.url ?
+        ' href="' + htmlEscape(eventDef.url) + '"' :
+        ''
+        ) +
+      (skinCss ?
+        ' style="' + skinCss + '"' :
+        ''
+        ) +
+    '>' +
+      '<div class="fc-content">' +
+        (this.dayGrid.isRTL ?
+          titleHtml + ' ' + timeHtml : // put a natural space in between
+          timeHtml + ' ' + titleHtml   //
           ) +
-        (skinCss ?
-          ' style="' + skinCss + '"' :
-          ''
-          ) +
-      '>' +
-        '<div class="fc-content">' +
-          (this.dayGrid.isRTL ?
-            titleHtml + ' ' + timeHtml : // put a natural space in between
-            timeHtml + ' ' + titleHtml   //
-            ) +
-        '</div>' +
-        (isResizableFromStart ?
-          '<div class="fc-resizer fc-start-resizer" />' :
-          ''
-          ) +
-        (isResizableFromEnd ?
-          '<div class="fc-resizer fc-end-resizer" />' :
-          ''
-          ) +
-      '</a>'
-    // return '<div>x</div>'
+      '</div>' +
+      (isResizableFromStart ?
+        '<div class="fc-resizer fc-start-resizer" />' :
+        ''
+        ) +
+      (isResizableFromEnd ?
+        '<div class="fc-resizer fc-end-resizer" />' :
+        ''
+        ) +
+    '</a>'
+    } {
+      return htmlReturn
+    }
   }
 
 }

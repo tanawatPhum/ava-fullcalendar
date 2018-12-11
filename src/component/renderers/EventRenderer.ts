@@ -80,17 +80,21 @@ export default class EventRenderer {
     }
     this.renderBgRanges(bgRanges)
     this.renderFgRanges(fgRanges)
-    $('.fc-day').click((ev: any ) => {
-      let htmlBasicViewEventList = ''
-      for (let fgRange in fgRanges) {
-        let eventStartDate = fgRanges[fgRange].eventInstance.def.dateProfile.start
-        if (eventStartDate.format('YYYY-MM-DD') === ev.target.dataset.date.toString()) {
-          htmlBasicViewEventList += fgRanges[fgRange].eventDef.title + '--->' + eventStartDate.format('HH:mm') + '<br>'
+
+    if ( this.view.type === 'month' && window['isMobile']) {
+      $('.fc-day').click((ev: any ) => {
+        let htmlBasicViewEventList = ''
+        for (let fgRange in fgRanges) {
+          let eventStartDate = fgRanges[fgRange].eventInstance.def.dateProfile.start
+          if (eventStartDate.format('YYYY-MM-DD') === ev.target.dataset.date.toString()) {
+            htmlBasicViewEventList += fgRanges[fgRange].eventDef.title + '--->' + eventStartDate.format('HH:mm') + '<br>'
+          }
         }
-      }
-      $( '#basicViewEventList' ).remove()
-      $( '.fc-basic-view' ).after( '<div id="basicViewEventList">' + htmlBasicViewEventList + '</div>' )
-    })
+        $( '#basicViewEventList' ).remove()
+        $( '.fc-basic-view' ).after( '<div id="basicViewEventList">' + htmlBasicViewEventList + '</div>' )
+      })
+    }
+
   }
 
 
