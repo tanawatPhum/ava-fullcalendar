@@ -125,28 +125,13 @@ export default class EventRenderer {
     // }
     this.renderBgRanges(bgRanges)
     this.renderFgRanges(fgRanges)
-    let eventFootprints = this.component.eventRangesToEventFootprints(fgRanges)
-    let segs = this.component.eventFootprintsToSegs(eventFootprints)
     if (this.view.type === 'month' && window['isMobile']) {
+      setTimeout(() => {
+        this.setListCardEvent(fgRanges,$('td .fc-day.fc-today').data('date'))
+      }, 100)
       $('td .fc-day').click((ev: any) => {
-        let htmlBasicViewEventList = ''
-        for (let fgRange in fgRanges) {
-          let eventStartDate = fgRanges[fgRange].eventInstance.def.dateProfile.start
-          if (eventStartDate.format('YYYY-MM-DD') === ev.target.dataset.date.toString()) {
-            htmlBasicViewEventList += '<div id="' + fgRange + '" class="eventCard">' + '<div class="statBarEvneList"></div>' + fgRanges[fgRange].eventDef.title + '--->' + eventStartDate.format('HH:mm') + '</div>'
-          }
-        }
-        $('#basicViewEventList').remove()
-        $('.fc-basic-view')
-          .after('<div id="basicViewEventList">' + htmlBasicViewEventList + '</div>')
-        $('.eventCard').on('click', function (e) {
-          // tslint:disable-next-line:radix
-          let seg = segs[parseInt(e.target.id)]
-          this.component.publiclyTrigger('eventClick', { // can return `false` to cancel
-            context: e,
-            args: [seg.footprint.getEventLegacy(), e, this.view]
-          })
-        }.bind(this))
+        console.log(ev)
+        this.setListCardEvent(fgRanges, ev.target.dataset.date.toString())
       })
     }
     // let eventFootprints = this.component.eventRangesToEventFootprints(fgRanges[0])
@@ -154,6 +139,31 @@ export default class EventRenderer {
     // // console.log(segs[0].footprint.getEventLegacy())
     // console.log(segs)
 
+  }
+  setListCardEvent(fgRanges, targetDate) {
+    let eventFootprints = this.component.eventRangesToEventFootprints(fgRanges)
+    let segs = this.component.eventFootprintsToSegs(eventFootprints)
+    let htmlBasicViewEventList = ''
+    for (let fgRange in fgRanges) {
+      let eventStartDate = fgRanges[fgRange].eventInstance.def.dateProfile.start
+      if (eventStartDate.format('YYYY-MM-DD') === targetDate) {
+        htmlBasicViewEventList += '<div id="' + fgRange + '" class="eventCard">' + '<div class="statBarEvneList"></div>' + fgRanges[fgRange].eventDef.title + '--->' + eventStartDate.format('HH:mm') + '</div>'
+      }
+    }
+    if (!htmlBasicViewEventList) {
+      htmlBasicViewEventList += '<div> No Event</div>'
+    }
+    $('#basicViewEventList').remove()
+    $('.fc-basic-view')
+      .after('<div id="basicViewEventList">' + htmlBasicViewEventList + '</div>')
+    $('.eventCard').on('click', function (e) {
+      // tslint:disable-next-line:radix
+      let seg = segs[parseInt(e.target.id)]
+      this.component.publiclyTrigger('eventClick', { // can return `false` to cancel
+        context: e,
+        args: [seg.footprint.getEventLegacy(), e, this.view]
+      })
+    }.bind(this))
   }
 
 
