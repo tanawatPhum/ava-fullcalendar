@@ -133,7 +133,7 @@ export default class EventRenderer {
         for (let fgRange in fgRanges) {
           let eventStartDate = fgRanges[fgRange].eventInstance.def.dateProfile.start
           if (eventStartDate.format('YYYY-MM-DD') === ev.target.dataset.date.toString()) {
-            htmlBasicViewEventList += '<div id="' + fgRange + '" class="eventCard">' + '<div class="statBarEvneList"></div>' + fgRanges[fgRange].eventDef.title + '--->' + eventStartDate.format('HH:mm') + '</div>'
+            htmlBasicViewEventList += '<div class="eventCard">' + '<div class="statBarEvneList"></div>' + '<span class="eventCardTitle">' + fgRanges[fgRange].eventDef.title + '</span>' + '<span class="eventCardTime">' + eventStartDate.format('HH:mm') + '</span>' + '<span class="eventCardDetail">' + 'Lorem ipsum dolor sit amet...' + '</span>' + '</div>'
           }
         }
         $('#basicViewEventList').remove()
