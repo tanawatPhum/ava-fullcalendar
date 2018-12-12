@@ -64,8 +64,12 @@
                     title: 'Click for Google',
                     url: 'http://google.com/',
                     start: '2018-03-28'
-                }]
-            });
+                }],
+                eventClick: function(event, element) {
+                    console.log('eventClick', event, element)
+                }
+            })
+
 
         });
     </script>

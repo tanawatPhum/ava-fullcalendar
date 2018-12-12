@@ -1,5 +1,5 @@
 import * as $ from 'jquery'
-import { compareByFieldSpecs, proxy, durationHasTime } from '../../util';
+import { compareByFieldSpecs, proxy, durationHasTime } from '../../util'
 import * as moment from 'moment'
 export default class EventRenderer {
 
@@ -124,20 +124,34 @@ export default class EventRenderer {
     // }
     this.renderBgRanges(bgRanges)
     this.renderFgRanges(fgRanges)
-
+    let eventFootprints = this.component.eventRangesToEventFootprints(fgRanges)
+    let segs = this.component.eventFootprintsToSegs(eventFootprints)
     if (this.view.type === 'month' && window['isMobile']) {
       $('td .fc-day').click((ev: any) => {
         let htmlBasicViewEventList = ''
         for (let fgRange in fgRanges) {
           let eventStartDate = fgRanges[fgRange].eventInstance.def.dateProfile.start
           if (eventStartDate.format('YYYY-MM-DD') === ev.target.dataset.date.toString()) {
-            htmlBasicViewEventList += '<div class="eventCard">' + '<div class="statBarEvneList"></div>' + fgRanges[fgRange].eventDef.title + '--->' + eventStartDate.format('HH:mm') + '</div>'
+            htmlBasicViewEventList += '<div id="' + fgRange + '" class="eventCard">' + '<div class="statBarEvneList"></div>' + fgRanges[fgRange].eventDef.title + '--->' + eventStartDate.format('HH:mm') + '</div>'
           }
         }
-        $( '#basicViewEventList' ).remove()
-        $( '.fc-basic-view' ).after( '<div id="basicViewEventList">' + htmlBasicViewEventList + '</div>' )
+        $('#basicViewEventList').remove()
+        $('.fc-basic-view')
+          .after('<div id="basicViewEventList">' + htmlBasicViewEventList + '</div>')
+        $('.eventCard').on('click', function (e) {
+          // tslint:disable-next-line:radix
+          let seg = segs[parseInt(e.target.id)]
+          this.component.publiclyTrigger('eventClick', { // can return `false` to cancel
+            context: e,
+            args: [seg.footprint.getEventLegacy(), e, this.view]
+          })
+        }.bind(this))
       })
     }
+    // let eventFootprints = this.component.eventRangesToEventFootprints(fgRanges[0])
+    // let segs = this.component.eventFootprintsToSegs(eventFootprints)
+    // // console.log(segs[0].footprint.getEventLegacy())
+    // console.log(segs)
 
   }
 
@@ -151,7 +165,7 @@ export default class EventRenderer {
   renderFgRanges(eventRanges) {
     let eventFootprints = this.component.eventRangesToEventFootprints(eventRanges)
     let segs = this.component.eventFootprintsToSegs(eventFootprints)
-    console.log(eventRanges)
+    console.log(segs)
     // render an `.el` on each seg
     // returns a subset of the segs. segs that were actually rendered
     segs = this.renderFgSegEls(segs)
