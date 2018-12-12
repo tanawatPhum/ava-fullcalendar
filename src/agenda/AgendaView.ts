@@ -44,10 +44,10 @@ export default class AgendaView extends View {
     this.timeGrid = this.instantiateTimeGrid()
     this.addChild(this.timeGrid)
 
-    if (this.opt('allDaySlot')) { // should we display the "all-day" area?
-      this.dayGrid = this.instantiateDayGrid() // the all-day subcomponent of this view
-      this.addChild(this.dayGrid)
-    }
+    // if (this.opt('allDaySlot')) { // should we display the "all-day" area?
+    //   this.dayGrid = this.instantiateDayGrid() // the all-day subcomponent of this view
+    //   this.addChild(this.dayGrid)
+    // }
 
     this.scroller = new Scroller({
       overflowX: 'hidden',

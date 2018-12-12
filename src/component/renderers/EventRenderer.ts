@@ -54,6 +54,7 @@ export default class EventRenderer {
 
 
   render(eventsPayload) {
+    $('#basicViewEventList').remove()
     let dateProfile = this.component._getDateProfile()
     let eventDefId
     let instanceGroup
