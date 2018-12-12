@@ -130,8 +130,24 @@ export default class EventRenderer {
         this.setListCardEvent(fgRanges,$('td .fc-day.fc-today').data('date'))
       }, 100)
       $('td .fc-day').click((ev: any) => {
-        console.log(ev)
-        this.setListCardEvent(fgRanges, ev.target.dataset.date.toString())
+        let htmlBasicViewEventList = ''
+        for (let fgRange in fgRanges) {
+          let eventStartDate = fgRanges[fgRange].eventInstance.def.dateProfile.start
+          if (eventStartDate.format('YYYY-MM-DD') === ev.target.dataset.date.toString()) {
+            htmlBasicViewEventList += '<div class="eventCard">' + '<div class="statBarEvneList"></div>' + '<span class="eventCardTitle">' + fgRanges[fgRange].eventDef.title + '</span>' + '<span class="eventCardTime">' + eventStartDate.format('HH:mm') + '</span>' + '<span class="eventCardDetail">' + 'Lorem ipsum dolor sit amet...' + '</span>' + '</div>'
+          }
+        }
+        $('#basicViewEventList').remove()
+        $('.fc-basic-view')
+          .after('<div id="basicViewEventList">' + htmlBasicViewEventList + '</div>')
+        $('.eventCard').on('click', function (e) {
+          // tslint:disable-next-line:radix
+          let seg = segs[parseInt(e.target.id)]
+          this.component.publiclyTrigger('eventClick', { // can return `false` to cancel
+            context: e,
+            args: [seg.footprint.getEventLegacy(), e, this.view]
+          })
+        }.bind(this))
       })
     }
     // let eventFootprints = this.component.eventRangesToEventFootprints(fgRanges[0])
