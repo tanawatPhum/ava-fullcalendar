@@ -20,7 +20,7 @@ export default class DayGridEventRenderer extends EventRenderer {
 
   renderBgRanges(eventRanges) {
     // don't render timed background events
-    eventRanges = $.grep(eventRanges, function(eventRange: any) {
+    eventRanges = $.grep(eventRanges, function (eventRange: any) {
       return eventRange.eventDef.isAllDay()
     })
 
@@ -33,7 +33,7 @@ export default class DayGridEventRenderer extends EventRenderer {
     let rowStructs = this.rowStructs = this.renderSegRows(segs)
 
     // append to each row's content skeleton
-    this.dayGrid.rowEls.each(function(i, rowNode) {
+    this.dayGrid.rowEls.each(function (i, rowNode) {
       $(rowNode).find('.fc-content-skeleton > table').append(
         rowStructs[i].tbodyEl
       )
@@ -63,6 +63,7 @@ export default class DayGridEventRenderer extends EventRenderer {
     let row
 
     segRows = this.groupSegRows(segs) // group into nested arrays
+    console.log(segRows)
 
     // iterate each row of segment groupings
     for (row = 0; row < segRows.length; row++) {
@@ -118,18 +119,19 @@ export default class DayGridEventRenderer extends EventRenderer {
       levelSegs = segLevels[i]
       col = 0
       tr = $('<tr/>')
-
       segMatrix.push([])
       cellMatrix.push([])
       loneCellMatrix.push([])
 
       // levelCnt might be 1 even though there are no actual levels. protect against this.
       // this single empty row is useful for styling.
+      console.log(levelSegs)
       if (levelSegs) {
         for (j = 0; j < levelSegs.length; j++) { // iterate through segments in level
           seg = levelSegs[j]
 
           emptyCellsUntil(seg.leftCol)
+
 
           // create a container that occupies or more columns. append the event element.
           td = $('<td class="fc-event-container"/>').append(seg.el)
@@ -138,7 +140,6 @@ export default class DayGridEventRenderer extends EventRenderer {
           } else { // a single-column segment
             loneCellMatrix[i][col] = td
           }
-
           while (col <= seg.rightCol) {
             cellMatrix[i][col] = td
             segMatrix[i][col] = seg
@@ -212,6 +213,7 @@ export default class DayGridEventRenderer extends EventRenderer {
     }
 
     for (i = 0; i < segs.length; i++) {
+
       segRows[segs[i].row].push(segs[i])
     }
 
@@ -257,37 +259,37 @@ export default class DayGridEventRenderer extends EventRenderer {
     }
     titleHtml =
       '<span class="fc-title">' +
-        (htmlEscape(eventDef.title || '') || '&nbsp;') + // we always want one line of height
+      (htmlEscape(eventDef.title || '') || '&nbsp;') + // we always want one line of height
       '</span>'
     let htmlReturn = ''
     if (window['isMobile']) {
       htmlReturn = '<div class="dot-event"></div>'
     } else {
       htmlReturn = '<a class="' + classes.join(' ') + '"' +
-      (eventDef.url ?
-        ' href="' + htmlEscape(eventDef.url) + '"' :
-        ''
+        (eventDef.url ?
+          ' href="' + htmlEscape(eventDef.url) + '"' :
+          ''
         ) +
-      (skinCss ?
-        ' style="' + skinCss + '"' :
-        ''
+        (skinCss ?
+          ' style="' + skinCss + '"' :
+          ''
         ) +
-    '>' +
-      '<div class="fc-content">' +
+        '>' +
+        '<div class="fc-content">' +
         (this.dayGrid.isRTL ?
           titleHtml + ' ' + timeHtml : // put a natural space in between
           timeHtml + ' ' + titleHtml   //
-          ) +
-      '</div>' +
-      (isResizableFromStart ?
-        '<div class="fc-resizer fc-start-resizer" />' :
-        ''
         ) +
-      (isResizableFromEnd ?
-        '<div class="fc-resizer fc-end-resizer" />' :
-        ''
+        '</div>' +
+        (isResizableFromStart ?
+          '<div class="fc-resizer fc-start-resizer" />' :
+          ''
         ) +
-    '</a>'
+        (isResizableFromEnd ?
+          '<div class="fc-resizer fc-end-resizer" />' :
+          ''
+        ) +
+        '</a>'
     } {
       return htmlReturn
     }

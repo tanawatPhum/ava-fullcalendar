@@ -1,5 +1,5 @@
 import * as $ from 'jquery'
-import { compareByFieldSpecs, proxy } from '../../util'
+import { compareByFieldSpecs, proxy, durationHasTime } from '../../util'
 import * as moment from 'moment'
 export default class EventRenderer {
 
@@ -54,6 +54,7 @@ export default class EventRenderer {
 
 
   render(eventsPayload) {
+    $('#basicViewEventList').remove()
     let dateProfile = this.component._getDateProfile()
     let eventDefId
     let instanceGroup
@@ -66,34 +67,92 @@ export default class EventRenderer {
       eventRanges = instanceGroup.sliceRenderRanges(
         dateProfile.activeUnzonedRange
       )
+      // console.log(eventRanges)
+      // for (let eventRange in eventRanges) {
+      //   if (eventRanges[eventRange].eventInstance.def.dateProfile.end) {
+      //     let eventStartDate = eventRanges[eventRange].eventInstance.def.dateProfile.start
+      //     let eventEndDate = eventRanges[eventRange].eventInstance.def.dateProfile.end
+      //     let eventDiffDate = eventEndDate.diff(eventStartDate, 'days')
+      //     if (eventDiffDate > 0) {
+      //       for (let i = 1; i <= eventDiffDate - 1; i++) {
+      //         if (instanceGroup.getEventDef().hasBgRendering()) {
+      //           bgRanges.push.apply(bgRanges, eventRanges)
+      //         } else {
+      //           fgRanges.push.apply(fgRanges, eventRanges)
+      //         }
+
+      //       }
+      //     } else {
+
+      //     }
+      //   }
+      // }
+
       if (instanceGroup.getEventDef().hasBgRendering()) {
         bgRanges.push.apply(bgRanges, eventRanges)
       } else {
         fgRanges.push.apply(fgRanges, eventRanges)
       }
+      // if ( eventRanges.eventInstance.def.dateProfile.end ) {
+      //   console.log(moment().diff(eventRanges.eventInstance.def.dateProfile.start, eventRanges.eventInstance.def.dateProfile.end))
+      // }
+      // if (instanceGroup.getEventDef().hasBgRendering()) {
+      //   bgRanges.push.apply(bgRanges, eventRanges)
+      // } else {
+      //   fgRanges.push.apply(fgRanges, eventRanges)
+      // }
     }
-    if ( this.view.type === 'listWeek' && this.view.subType === 'day') {
-      for (let fgRange in fgRanges) {
-        // if(fgRanges[fgRange].eventInstance.def.dateProfile.start.format('YYYY-MM-DD'))
-        // console.log(fgRanges[fgRange].eventInstance.def.dateProfile.start.format('YYYY-MM-DD'))
-      }
-    }
+    console.log(fgRanges)
+    // if ( this.view.type === 'listWeek' && this.view.subType === 'day') {
+    // for (let fgRange in fgRanges) {
+    //   if (fgRanges[fgRange].eventInstance.def.dateProfile.end) {
+    //     let eventStartDate = fgRanges[fgRange].eventInstance.def.dateProfile.start
+    //     let eventEndDate = fgRanges[fgRange].eventInstance.def.dateProfile.end
+    //     let eventDiffDate = eventEndDate.diff(eventStartDate, 'days')
+    //     if (eventDiffDate > 0) {
+    //       for (let i = 1; i <= eventDiffDate - 1; i++) {
+    //         let eventDate = JSON.parse(JSON.stringify(eventStartDate))
+    //         eventDate = moment(eventDate)
+    //         let sameEventForNextDate = eventDate.set('date', eventDate.get('date') + i)
+    //         fgRanges.push()
+    //       }
+    //     }
+    //     fgRanges[fgRange].eventInstance.def.dateProfile.end = null
+    //   }
+    // if(fgRanges[fgRange].eventInstance.def.dateProfile.start.format('YYYY-MM-DD'))
+    // console.log(fgRanges[fgRange].eventInstance.def.dateProfile.start.format('YYYY-MM-DD'))
+    // }
+    // }
     this.renderBgRanges(bgRanges)
     this.renderFgRanges(fgRanges)
-
-    if ( this.view.type === 'month' && window['isMobile']) {
-      $('td .fc-day').click((ev: any ) => {
+    let eventFootprints = this.component.eventRangesToEventFootprints(fgRanges)
+    let segs = this.component.eventFootprintsToSegs(eventFootprints)
+    if (this.view.type === 'month' && window['isMobile']) {
+      $('td .fc-day').click((ev: any) => {
         let htmlBasicViewEventList = ''
         for (let fgRange in fgRanges) {
           let eventStartDate = fgRanges[fgRange].eventInstance.def.dateProfile.start
           if (eventStartDate.format('YYYY-MM-DD') === ev.target.dataset.date.toString()) {
-            htmlBasicViewEventList += '<div class="eventCard">' + '<div class="statBarEvneList"></div>' + fgRanges[fgRange].eventDef.title + '--->' + eventStartDate.format('HH:mm') + '</div>'
+            htmlBasicViewEventList += '<div id="' + fgRange + '" class="eventCard">' + '<div class="statBarEvneList"></div>' + fgRanges[fgRange].eventDef.title + '--->' + eventStartDate.format('HH:mm') + '</div>'
           }
         }
-        $( '#basicViewEventList' ).remove()
-        $( '.fc-basic-view' ).after( '<div id="basicViewEventList">' +  htmlBasicViewEventList + '</div>' )
+        $('#basicViewEventList').remove()
+        $('.fc-basic-view')
+          .after('<div id="basicViewEventList">' + htmlBasicViewEventList + '</div>')
+        $('.eventCard').on('click', function (e) {
+          // tslint:disable-next-line:radix
+          let seg = segs[parseInt(e.target.id)]
+          this.component.publiclyTrigger('eventClick', { // can return `false` to cancel
+            context: e,
+            args: [seg.footprint.getEventLegacy(), e, this.view]
+          })
+        }.bind(this))
       })
     }
+    // let eventFootprints = this.component.eventRangesToEventFootprints(fgRanges[0])
+    // let segs = this.component.eventFootprintsToSegs(eventFootprints)
+    // // console.log(segs[0].footprint.getEventLegacy())
+    // console.log(segs)
 
   }
 
@@ -107,7 +166,7 @@ export default class EventRenderer {
   renderFgRanges(eventRanges) {
     let eventFootprints = this.component.eventRangesToEventFootprints(eventRanges)
     let segs = this.component.eventFootprintsToSegs(eventFootprints)
-
+    console.log(segs)
     // render an `.el` on each seg
     // returns a subset of the segs. segs that were actually rendered
     segs = this.renderFgSegEls(segs)
@@ -191,7 +250,7 @@ export default class EventRenderer {
 
   // Renders and assigns an `el` property for each foreground event segment.
   // Only returns segments that successfully rendered.
-  renderFgSegEls(segs, disableResizing= false) {
+  renderFgSegEls(segs, disableResizing = false) {
     let hasEventRenderHandlers = this.view.hasPublicHandlers('eventRender')
     let html = ''
     let renderedSegs = []
@@ -266,7 +325,7 @@ export default class EventRenderer {
 
     let custom = this.view.publiclyTrigger('eventRender', {
       context: legacy,
-      args: [ legacy, el, this.view ]
+      args: [legacy, el, this.view]
     })
 
     if (custom === false) { // means don't render at all
@@ -433,7 +492,7 @@ export default class EventRenderer {
 
 
   getFallbackStylingObjs(eventDef) {
-    return [ eventDef.source ]
+    return [eventDef.source]
   }
 
 

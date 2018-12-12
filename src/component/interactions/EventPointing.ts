@@ -27,7 +27,6 @@ export default class EventPointing extends Interaction {
       context: seg.el[0],
       args: [ seg.footprint.getEventLegacy(), ev, this.view ]
     })
-
     if (res === false) {
       ev.preventDefault()
     }
