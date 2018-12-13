@@ -152,8 +152,9 @@ export default class EventRenderer {
         htmlBasicViewEventList += '<div id="' + fgRange + '" class="eventCard">' + '<div class="statBarEvneList"></div>' + '<span class="eventCardTitle">' + fgRanges[fgRange].eventDef.title + '</span>' + '<span class="eventCardTime">' + eventStartDate.format('HH:mm') + '</span>' +  '<span class="eventCardDetail">' + 'Lorem ipsum dolor sit amet...' + '</span>' + '</div>'
       }
     }
+
     if (!htmlBasicViewEventList) {
-      htmlBasicViewEventList += '<div class="noEvent"> No events or task</div>'
+      htmlBasicViewEventList += '<div class="noEvent">' + ' <div class="noEventImg"> <img src="../dist/calendar.svg"> </div>' + ' No events or task ' + '</div>'
     }
     $('#basicViewEventList').remove()
     $('.fc-basic-view')
