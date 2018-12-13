@@ -145,13 +145,15 @@ export default class EventRenderer {
     let segs = this.component.eventFootprintsToSegs(eventFootprints)
     let htmlBasicViewEventList = ''
     for (let fgRange in fgRanges) {
-      let eventStartDate = fgRanges[fgRange].eventInstance.def.dateProfile.start
+      let eventStartDate = fgRanges[fgRange]
+      .eventInstance.def.dateProfile.start
+
       if (eventStartDate.format('YYYY-MM-DD') === targetDate) {
-        htmlBasicViewEventList += '<div id="' + fgRange + '" class="eventCard">' + '<div class="statBarEvneList"></div>' + fgRanges[fgRange].eventDef.title + '--->' + eventStartDate.format('HH:mm') + '</div>'
+        htmlBasicViewEventList += '<div id="' + fgRange + '" class="eventCard">' + '<div class="statBarEvneList"></div>' + '<span class="eventCardTitle">' + fgRanges[fgRange].eventDef.title + '</span>' + '<span class="eventCardTime">' + eventStartDate.format('HH:mm') + '</span>' +  '<span class="eventCardDetail">' + 'Lorem ipsum dolor sit amet...' + '</span>' + '</div>'
       }
     }
     if (!htmlBasicViewEventList) {
-      htmlBasicViewEventList += '<div> No Event</div>'
+      htmlBasicViewEventList += '<div class="noEvent"> No Event</div>'
     }
     $('#basicViewEventList').remove()
     $('.fc-basic-view')
