@@ -153,7 +153,7 @@ export default class EventRenderer {
       }
     }
     if (!htmlBasicViewEventList) {
-      htmlBasicViewEventList += '<div class="noEvent"> No Event</div>'
+      htmlBasicViewEventList += '<div class="noEvent"> No events or task</div>'
     }
     $('#basicViewEventList').remove()
     $('.fc-basic-view')
