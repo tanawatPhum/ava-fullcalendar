@@ -67,7 +67,7 @@ export default class EventRenderer {
       eventRanges = instanceGroup.sliceRenderRanges(
         dateProfile.activeUnzonedRange
       )
-      // console.log(eventRanges)
+ 
       // for (let eventRange in eventRanges) {
       //   if (eventRanges[eventRange].eventInstance.def.dateProfile.end) {
       //     let eventStartDate = eventRanges[eventRange].eventInstance.def.dateProfile.start

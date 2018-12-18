@@ -63,7 +63,7 @@ export default class DayGridEventRenderer extends EventRenderer {
     let row
 
     segRows = this.groupSegRows(segs) // group into nested arrays
-    console.log(segRows)
+
 
     // iterate each row of segment groupings
     for (row = 0; row < segRows.length; row++) {
@@ -125,19 +125,20 @@ export default class DayGridEventRenderer extends EventRenderer {
 
       // levelCnt might be 1 even though there are no actual levels. protect against this.
       // this single empty row is useful for styling.
-      console.log(levelSegs)
+
       if (levelSegs) {
         for (j = 0; j < levelSegs.length; j++) { // iterate through segments in level
           seg = levelSegs[j]
 
+          console.log(seg)
           emptyCellsUntil(seg.leftCol)
-
-
           // create a container that occupies or more columns. append the event element.
           td = $('<td class="fc-event-container"/>').append(seg.el)
           if (seg.leftCol !== seg.rightCol) {
             td.attr('colspan', seg.rightCol - seg.leftCol + 1)
           } else { // a single-column segment
+            // console.log('i-->',col)
+            // console.log('col-->',col)
             loneCellMatrix[i][col] = td
           }
           while (col <= seg.rightCol) {
@@ -145,9 +146,31 @@ export default class DayGridEventRenderer extends EventRenderer {
             segMatrix[i][col] = seg
             col++
           }
-
           tr.append(td)
         }
+        // for (j = 0; j < levelSegs.length; j++) { // iterate through segments in level
+        //   seg = levelSegs[j]
+
+        //   emptyCellsUntil(seg.leftCol)
+
+
+        //   // create a container that occupies or more columns. append the event element.
+        //   td = $('<td class="fc-event-container"/>').append(seg.el)
+        //   if (seg.leftCol !== seg.rightCol) {
+        //     td.attr('colspan', seg.rightCol - seg.leftCol + 1)
+        //   } else { // a single-column segment
+        //     // console.log('i-->',col)
+        //     // console.log('col-->',col)
+        //     loneCellMatrix[i][col] = td
+        //   }
+        //   while (col <= seg.rightCol) {
+        //     cellMatrix[i][col] = td
+        //     segMatrix[i][col] = seg
+        //     col++
+        //   }
+        //   console.log(td)
+        //   tr.append(td)
+        // }
       }
 
       emptyCellsUntil(colCnt) // finish off the row

@@ -295,7 +295,7 @@ export default class Calendar {
   // Should be called when any type of async data fetching begins
   pushLoading() {
     if (!(this.loadingLevel++)) {
-      this.publiclyTrigger('loading', [ true, this.view ])
+      this.publiclyTrigger('loading', [true, this.view])
     }
   }
 
@@ -303,7 +303,7 @@ export default class Calendar {
   // Should be called when any type of async data fetching completes
   popLoading() {
     if (!(--this.loadingLevel)) {
-      this.publiclyTrigger('loading', [ false, this.view ])
+      this.publiclyTrigger('loading', [false, this.view])
     }
   }
 
@@ -349,7 +349,7 @@ export default class Calendar {
     })
 
     // called immediately, and upon option change
-    this.optionsManager.watch('settingTheme', [ '?theme', '?themeSystem' ], (opts) => {
+    this.optionsManager.watch('settingTheme', ['?theme', '?themeSystem'], (opts) => {
       let themeClass = getThemeSystemClass(opts.themeSystem || opts.theme)
       let theme = new themeClass(this.optionsManager)
       let widgetClass = theme.getClass('widget')
@@ -369,7 +369,7 @@ export default class Calendar {
       }
     })
 
-    this.optionsManager.watch('settingBusinessHourGenerator', [ '?businessHours' ], (deps) => {
+    this.optionsManager.watch('settingBusinessHourGenerator', ['?businessHours'], (deps) => {
       this.businessHourGenerator = new BusinessHourGenerator(deps.businessHours, this)
 
       if (this.view) {
@@ -381,7 +381,7 @@ export default class Calendar {
 
     // called immediately, and upon option change.
     // HACK: locale often affects isRTL, so we explicitly listen to that too.
-    this.optionsManager.watch('applyingDirClasses', [ '?isRTL', '?locale' ], (opts) => {
+    this.optionsManager.watch('applyingDirClasses', ['?isRTL', '?locale'], (opts) => {
       el.toggleClass('fc-ltr', !opts.isRTL)
       el.toggleClass('fc-rtl', opts.isRTL)
     })
@@ -439,13 +439,13 @@ export default class Calendar {
 
   bindViewHandlers(view) {
 
-    view.watch('titleForCalendar', [ 'title' ], (deps) => { // TODO: better system
+    view.watch('titleForCalendar', ['title'], (deps) => { // TODO: better system
       if (view === this.view) { // hack
         this.setToolbarsTitle(deps.title)
       }
     })
 
-    view.watch('dateProfileForCalendar', [ 'dateProfile' ], (deps) => {
+    view.watch('dateProfileForCalendar', ['dateProfile'], (deps) => {
       if (view === this.view) { // hack
         this.currentDate = deps.dateProfile.date // might have been constrained by view dates
         this.updateToolbarButtons(deps.dateProfile)
@@ -467,7 +467,7 @@ export default class Calendar {
   // Renders a view because of a date change, view-type change, or for the first time.
   // If not given a viewType, keep the current view but render different dates.
   // Accepts an optional scroll state to restore to.
-  renderView(viewType?: string, subViewType?: string ) {
+  renderView(viewType?: string, subViewType?: string) {
     let oldView = this.view
     let newView
 
@@ -488,21 +488,21 @@ export default class Calendar {
       newView.startBatchRender() // so that setElement+setDate rendering are joined
       let buttonOptionListWeek = "<button class='optionListWeek' value='week'>Week</button> <button class='optionListWeek' value='day'>Day</button>"
       $(this.contentEl).find('.optionListWeek').remove()
-      if ( viewType === 'listWeek') {
-        if ( subViewType ) {
+      if (viewType === 'listWeek') {
+        if (subViewType) {
           this.view['subType'] = subViewType
         } else {
           this.view['subType'] = 'week'
         }
         $(this.contentEl).append(buttonOptionListWeek)
-        $(this.contentEl).find('.optionListWeek').click((el: any ) => {
+        $(this.contentEl).find('.optionListWeek').click((el: any) => {
           $(el).addClass('fc-state-active')
-          if ( el.target.value === 'week' ) {
+          if (el.target.value === 'week') {
             this.clearView()
-            this.renderView('listWeek','week')
+            this.renderView('listWeek', 'week')
           } else if (el.target.value === 'day') {
             this.clearView()
-            this.renderView('listWeek','day')
+            this.renderView('listWeek', 'day')
           }
         })
       }
@@ -649,7 +649,7 @@ export default class Calendar {
       this.view.isDatesRendered
     ) {
       if (this.updateViewSize(true)) { // isResize=true, returns true on success
-        this.publiclyTrigger('windowResize', [ this.view ])
+        this.publiclyTrigger('windowResize', [this.view])
       }
     }
   }
@@ -699,7 +699,7 @@ export default class Calendar {
   initToolbars() {
     this.header = new Toolbar(this, this.computeHeaderOptions())
     this.footer = new Toolbar(this, this.computeFooterOptions())
-    this.toolbarsManager = new Iterator([ this.header, this.footer ])
+    this.toolbarsManager = new Iterator([this.header, this.footer])
   }
 
 
@@ -781,7 +781,7 @@ export default class Calendar {
 
 
   queryToolbarsHeight() {
-    return this.toolbarsManager.items.reduce(function(accumulator, toolbar) {
+    return this.toolbarsManager.items.reduce(function (accumulator, toolbar) {
       let toolbarHeight = toolbar.el ? toolbar.el.outerHeight(true) : 0 // includes margin
       return accumulator + toolbarHeight
     }, 0)
@@ -1063,7 +1063,26 @@ export default class Calendar {
     let eventManager = new EventManager(this)
     let rawSources = this.opt('eventSources') || []
     let singleRawSource = this.opt('events')
+    if (window['isMobile']) {
+      singleRawSource.forEach(element => {
+        if (element.start !== element.end && element.end) {
+          let startDay = moment(element.start)
+          let endDay = moment(element.end)
+          let diffDay = endDay.diff(startDay, 'days')
+          element.end = null
+          for (let i = 1; i < diffDay; i++) {
+            let newElement = JSON.parse(JSON.stringify(element))
+            newElement.start = moment(newElement.start).set('date', moment(newElement.start).get('date') + i).format('YYYY-MM-DD')
+            newElement.end = null
+            console.log(newElement)
+            singleRawSource.push(newElement)
+          }
+        }
+      })
+    }
 
+    console.log(singleRawSource)
+    console.log(rawSources)
     this.eventManager = eventManager
 
     if (singleRawSource) {
@@ -1077,6 +1096,7 @@ export default class Calendar {
     eventManager.freeze()
 
     rawSources.forEach((rawSource) => {
+
       let source = EventSourceParser.parse(rawSource, this)
 
       if (source) {
@@ -1175,7 +1195,7 @@ export default class Calendar {
     if (legacyQuery == null) { // shortcut for removing all
       eventManager.removeAllEventDefs() // persist=true
     } else {
-      eventManager.getEventInstances().forEach(function(eventInstance) {
+      eventManager.getEventInstances().forEach(function (eventInstance) {
         legacyInstances.push(eventInstance.toLegacy())
       })
 
@@ -1202,7 +1222,7 @@ export default class Calendar {
   clientEvents(legacyQuery) {
     let legacyEventInstances = []
 
-    this.eventManager.getEventInstances().forEach(function(eventInstance) {
+    this.eventManager.getEventInstances().forEach(function (eventInstance) {
       legacyEventInstances.push(eventInstance.toLegacy())
     })
 
@@ -1330,7 +1350,7 @@ function filterLegacyEventInstances(legacyEventInstances, legacyQuery) {
   } else { // an event ID
     legacyQuery += '' // normalize to string
 
-    return legacyEventInstances.filter(function(legacyEventInstance) {
+    return legacyEventInstances.filter(function (legacyEventInstance) {
       // soft comparison because id not be normalized to string
       // tslint:disable-next-line
       return legacyEventInstance.id == legacyQuery ||
