@@ -91,7 +91,41 @@
   min-width: 1.25em;
 }
 
+@media only screen and (min-width: 480px) {
+  body {
+    margin: 20px 0px !important;
+  }
+
+}
+
+
 @media only screen and (min-width: 320px) and (max-width: 480px) {
+
+  html {
+    background: #EFEFEF;
+  }
+
+  body {
+    margin: 0px !important;
+  }
+
+
+  // Header //
+  .fc-left h2 {
+    padding-top: 20px;
+    color: white;
+  }
+
+  .fc-toolbar button {
+    color: white;
+  }
+
+  .fc-toolbar button.fc-today-button {
+    color: #333333;
+  }
+
+  /* Header */
+
   .fc-row.fc-rigid .fc-content-skeleton {
     position: absolute;
     top: 30%;
@@ -105,8 +139,10 @@
   //     background: #2196f33b !important;
   //     border-radius: 50px;
   // }
-  .fc-unthemed .fc-bg td.fc-today {
-    background: #2196f33b !important;
+
+  .fc-view.fc-basic-view .fc-bg td.fc-today {
+    // background: #2196f33b !important;
+    background: rgba(255, 49, 34, 0.23) !important;
     border-radius: 50px;
   }
 
@@ -140,9 +176,11 @@
 
   .fc-toolbar.fc-header-toolbar {
     // padding: 0 1.5rem;
+    background-color: #ff7979;
     padding: 0 0.7rem;
     margin-bottom: 1em;
     border-bottom: 1px solid #e0e0e0;
+    text-transform: uppercase;
   }
 
   // body .fc { 
@@ -175,12 +213,8 @@
     top: 0;
     width: 6px;
     height: 64px;
-    background: #2196F3;
+    background: #ff7979;
     border-radius: 5px 0px 0px 5px;
-  }
-
-  .fc-scroller {
-    height: 340px !important;
   }
 
   .eventCardTitle {
@@ -222,64 +256,79 @@
   }
 
 
-  // For Button Month
-  .fc-button-group button.fc-month-button {
-    content: '';
-    visibility: hidden;
-    text-indent: -9999px;
-    line-height: 0;
+  //   // For Button Month
+  //   .fc-button-group button.fc-month-button {
+  //     content: '';
+  //     visibility: hidden;
+  //     text-indent: -9999px;
+  //     line-height: 0;
+  //   }
+
+  //   .fc-button-group button.fc-month-button:after {
+  //     content: 'M';
+  //     visibility: visible;
+  //     text-indent: 0px;
+  //     text-indent: 0;
+  //     display: block;
+  //     font-weight: 700;
+  //   }
+
+  //   //* For Button Month *//
+
+
+  //   // For Button Week
+  //   .fc-button-group button.fc-agendaWeek-button {
+  //     content: '';
+  //     visibility: hidden;
+  //     text-indent: -9999px;
+  //     line-height: 0;
+  //   }
+
+  //   .fc-button-group button.fc-agendaWeek-button:after {
+  //     content: 'W';
+  //     visibility: visible;
+  //     text-indent: 0px;
+  //     text-indent: 0;
+  //     display: block;
+  //     font-weight: 700;
+  //   }
+
+  //   //* For Button Week *//
+
+
+  //   // For Button Day
+  //   .fc-button-group button.fc-agendaDay-button {
+  //     content: '';
+  //     visibility: hidden;
+  //     text-indent: -9999px;
+  //     line-height: 0;
+  //   }
+
+  //   .fc-button-group button.fc-agendaDay-button:after {
+  //     content: 'D';
+  //     visibility: visible;
+  //     text-indent: 0px;
+  //     text-indent: 0;
+  //     display: block;
+  //     font-weight: 700;
+  //   }
+
+  //   //* For Button Day *//
+
+  //   .fc-toolbar button{
+  //     transition: 0.5s;
+  //   }
+
+  .fc-toolbar .fc-right .fc-state-default {
+    padding: 4px 10px;
   }
 
-  .fc-button-group button.fc-month-button:after {
-    content: 'M';
-    visibility: visible;
-    text-indent: 0px;
-    text-indent: 0;
-    display: block;
-    font-weight: 700;
+  .fc-toolbar .fc-state-active,
+  .fc-toolbar .ui-state-active {
+    border-bottom: 3px solid white;
+    border-radius: 0;
+    outline: 0;
   }
-
-  //* For Button Month *//
-
-
-  // For Button Week
-  .fc-button-group button.fc-agendaWeek-button {
-    content: '';
-    visibility: hidden;
-    text-indent: -9999px;
-    line-height: 0;
-  }
-
-  .fc-button-group button.fc-agendaWeek-button:after {
-    content: 'W';
-    visibility: visible;
-    text-indent: 0px;
-    text-indent: 0;
-    display: block;
-    font-weight: 700;
-  }
-
-  //* For Button Week *//
-
-
-  // For Button Day
-  .fc-button-group button.fc-agendaDay-button {
-    content: '';
-    visibility: hidden;
-    text-indent: -9999px;
-    line-height: 0;
-  }
-
-  .fc-button-group button.fc-agendaDay-button:after {
-    content: 'D';
-    visibility: visible;
-    text-indent: 0px;
-    text-indent: 0;
-    display: block;
-    font-weight: 700;
-  }
-
-  //* For Button Day *//
 
   .fc-month-button .fc-button .fc-state-default .fc-corner-left .fc-state-active {
     color: red;
@@ -299,6 +348,10 @@
     justify-content: center;
   }
 
+  .fc-right button {
+    text-transform: uppercase;
+  }
+
   .fc-prev-button.fc-button.fc-state-default.fc-corner-left {
     position: absolute;
     top: 18px;
@@ -315,16 +368,6 @@
     z-index: -1;
   }
 
-  // Header //
-  .fc-left h2 {
-    padding-top: 20px;
-  }
-
-  /* Header */
-
-  html {
-    background: #EFEFEF;
-  }
 
   #basicViewEventList {
     position: absolute;
@@ -347,5 +390,16 @@
     width: 73px;
   }
 
+  //Basic View
+
+  .fc-scroller.fc-day-grid-container {
+    height: 340px !important;
+  }
+
+  //Agendar View
+
+  // .fc-scroller.fc-time-grid-container{
+  //   height: 100vh !important;
+  // }
 
 }
