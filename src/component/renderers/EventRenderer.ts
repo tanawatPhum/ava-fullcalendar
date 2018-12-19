@@ -130,7 +130,7 @@ export default class EventRenderer {
       }, 100)
       let eventRenderer = this
       $('td .fc-day').click(function (ev: any) {
-        $('.fc-day-active').remove()
+        $('td .fc-day').removeClass('fc-day-active')
         if (!$(this).hasClass('fc-today')) {
           $(this).addClass('fc-day-active')
         }
