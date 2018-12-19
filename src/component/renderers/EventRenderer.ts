@@ -128,9 +128,13 @@ export default class EventRenderer {
       setTimeout(() => {
         this.setListCardEvent(fgRanges, $('td .fc-day.fc-today').data('date'))
       }, 100)
-      $('td .fc-day').click((ev: any) => {
-        console.log(ev)
-        this.setListCardEvent(fgRanges, ev.target.dataset.date.toString())
+      let eventRenderer = this
+      $('td .fc-day').click(function (ev: any) {
+        $('.fc-day-active').remove()
+        if (!$(this).hasClass('fc-today')) {
+          $(this).addClass('fc-day-active')
+        }
+        eventRenderer.setListCardEvent(fgRanges, ev.target.dataset.date.toString())
       })
     }
     // let eventFootprints = this.component.eventRangesToEventFootprints(fgRanges[0])
