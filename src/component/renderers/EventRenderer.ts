@@ -152,7 +152,7 @@ export default class EventRenderer {
         .eventInstance.def.dateProfile.start
 
       if (eventStartDate.format('YYYY-MM-DD') === targetDate) {
-        htmlBasicViewEventList += '<div id="' + fgRange + '" class="eventCard">' + '<div class="statBarEvneList"></div>' + '<span class="eventCardTitle">' + fgRanges[fgRange].eventDef.title + '</span>' + '<span class="eventCardTime">' + eventStartDate.format('HH:mm') + '</span>' + '<span class="eventCardDetail">' + 'Lorem ipsum dolor sit amet...' + '</span>' + '</div>'
+        htmlBasicViewEventList += '<div class="eventCard">' + '<div id="' + fgRange + '" class="eventBox"></div>' + '<div class="statBarEvneList"></div>' + '<span class="eventCardTitle">' + fgRanges[fgRange].eventDef.title + '</span>' + '<span class="eventCardTime">' + eventStartDate.format('HH:mm') + '</span>' + '<span class="eventCardDetail">' + 'Lorem ipsum dolor sit amet...' + '</span>' + '</div>'
       }
     }
 
@@ -162,7 +162,7 @@ export default class EventRenderer {
     $('#basicViewEventList').remove()
     $('.fc-basic-view')
       .after('<div id="basicViewEventList">' + htmlBasicViewEventList + '</div>')
-    $('.eventCard').on('click', function (e) {
+    $('.eventBox',).on('click', function (e) {
       // tslint:disable-next-line:radix
       let seg = segs[parseInt(e.target.id)]
       this.component.publiclyTrigger('eventClick', { // can return `false` to cancel
