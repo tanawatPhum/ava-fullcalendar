@@ -486,26 +486,26 @@ export default class Calendar {
       this.bindViewHandlers(newView)
 
       newView.startBatchRender() // so that setElement+setDate rendering are joined
-      let buttonOptionListWeek = "<button class='optionListWeek' value='week'>Week</button> <button class='optionListWeek' value='day'>Day</button>"
-      $(this.contentEl).find('.optionListWeek').remove()
-      if (viewType === 'listWeek') {
-        if (subViewType) {
-          this.view['subType'] = subViewType
-        } else {
-          this.view['subType'] = 'week'
-        }
-        $(this.contentEl).append(buttonOptionListWeek)
-        $(this.contentEl).find('.optionListWeek').click((el: any) => {
-          $(el).addClass('fc-state-active')
-          if (el.target.value === 'week') {
-            this.clearView()
-            this.renderView('listWeek', 'week')
-          } else if (el.target.value === 'day') {
-            this.clearView()
-            this.renderView('listWeek', 'day')
-          }
-        })
-      }
+      // let buttonOptionListWeek = "<button class='optionListWeek' value='week'>Week</button> <button class='optionListWeek' value='day'>Day</button>"
+      // $(this.contentEl).find('.optionListWeek').remove()
+      // if (viewType === 'listWeek') {
+      //   if (subViewType) {
+      //     this.view['subType'] = subViewType
+      //   } else {
+      //     this.view['subType'] = 'week'
+      //   }
+      //   $(this.contentEl).append(buttonOptionListWeek)
+      //   $(this.contentEl).find('.optionListWeek').click((el: any) => {
+      //     $(el).addClass('fc-state-active')
+      //     if (el.target.value === 'week') {
+      //       this.clearView()
+      //       this.renderView('listWeek', 'week')
+      //     } else if (el.target.value === 'day') {
+      //       this.clearView()
+      //       this.renderView('listWeek', 'day')
+      //     }
+      //   })
+      // }
       newView.setElement(
         $("<div class='fc-view fc-" + viewType + "-view' />").appendTo(this.contentEl)
       )

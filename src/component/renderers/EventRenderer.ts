@@ -67,7 +67,6 @@ export default class EventRenderer {
       eventRanges = instanceGroup.sliceRenderRanges(
         dateProfile.activeUnzonedRange
       )
- 
       // for (let eventRange in eventRanges) {
       //   if (eventRanges[eventRange].eventInstance.def.dateProfile.end) {
       //     let eventStartDate = eventRanges[eventRange].eventInstance.def.dateProfile.start
@@ -127,7 +126,7 @@ export default class EventRenderer {
     this.renderFgRanges(fgRanges)
     if (this.view.type === 'month' && window['isMobile']) {
       setTimeout(() => {
-        this.setListCardEvent(fgRanges,$('td .fc-day.fc-today').data('date'))
+        this.setListCardEvent(fgRanges, $('td .fc-day.fc-today').data('date'))
       }, 100)
       $('td .fc-day').click((ev: any) => {
         console.log(ev)
@@ -146,10 +145,10 @@ export default class EventRenderer {
     let htmlBasicViewEventList = ''
     for (let fgRange in fgRanges) {
       let eventStartDate = fgRanges[fgRange]
-      .eventInstance.def.dateProfile.start
+        .eventInstance.def.dateProfile.start
 
       if (eventStartDate.format('YYYY-MM-DD') === targetDate) {
-        htmlBasicViewEventList += '<div id="' + fgRange + '" class="eventCard">' + '<div class="statBarEvneList"></div>' + '<span class="eventCardTitle">' + fgRanges[fgRange].eventDef.title + '</span>' + '<span class="eventCardTime">' + eventStartDate.format('HH:mm') + '</span>' +  '<span class="eventCardDetail">' + 'Lorem ipsum dolor sit amet...' + '</span>' + '</div>'
+        htmlBasicViewEventList += '<div id="' + fgRange + '" class="eventCard">' + '<div class="statBarEvneList"></div>' + '<span class="eventCardTitle">' + fgRanges[fgRange].eventDef.title + '</span>' + '<span class="eventCardTime">' + eventStartDate.format('HH:mm') + '</span>' + '<span class="eventCardDetail">' + 'Lorem ipsum dolor sit amet...' + '</span>' + '</div>'
       }
     }
 

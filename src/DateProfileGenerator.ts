@@ -75,7 +75,6 @@ export default class DateProfileGenerator {
         isDateAllDay
       )
     }
-
     currentInfo = this.buildCurrentRangeInfo(date, direction)
     isRangeAllDay = /^(year|month|week|day)$/.test(currentInfo.unit)
     renderUnzonedRange = this.buildRenderRange(

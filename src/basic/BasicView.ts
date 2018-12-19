@@ -13,7 +13,7 @@ import View from '../View'
 import BasicViewDateProfileGenerator from './BasicViewDateProfileGenerator'
 import DayGrid from './DayGrid'
 
-window['isMobile'] = /Mobile|mini|Fennec|Android|iP(ad|od|hone)/.test(navigator.userAgent)
+
 /* An abstract class for the "basic" views, as well as month view. Renders one or more rows of day cells.
 ----------------------------------------------------------------------------------------------------------------------*/
 // It is a manager for a DayGrid subcomponent, which does most of the heavy lifting.

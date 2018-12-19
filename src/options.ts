@@ -1,6 +1,5 @@
 import { mergeProps } from './util'
-
-
+window['isMobile'] = /Mobile|mini|Fennec|Android|iP(ad|od|hone)/.test(navigator.userAgent)
 export const globalDefaults = {
 
   titleRangeSeparator: ' \u2013 ', // en dash
@@ -16,9 +15,9 @@ export const globalDefaults = {
   defaultView: 'month',
   aspectRatio: 1.35,
   header: {
-    left: 'title',
-    center: '',
-    right: 'today prev,next'
+    left: window['isMobile'] ? 'title' : 'prev,next today',
+    center: window['isMobile'] ? 'prev,next' : 'title',
+    right: window['isMobile'] ? 'month,agendaWeek,agendaDay,listDay today' : 'month,agendaWeek,agendaDay,listDay'
   },
   weekends: true,
   weekNumbers: false,
@@ -84,7 +83,7 @@ export const globalDefaults = {
   eventOrder: 'title',
   // eventRenderWait: null,
 
-  eventLimit: false,
+  eventLimit: true,
   eventLimitText: 'more',
   eventLimitClick: 'popover',
   dayPopoverFormat: 'LL',

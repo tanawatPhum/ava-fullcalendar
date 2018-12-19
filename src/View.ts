@@ -60,12 +60,19 @@ export default abstract class View extends InteractiveDateComponent {
     super(null, viewSpec.options)
 
     this.calendar = calendar
+    // console.log(calendar)
+    // if (viewSpec.type === 'listWeek') {
+    //   viewSpec.duration._data.days = 1
+    //   viewSpec.duration._days = 1
+    // }
     this.viewSpec = viewSpec
+    console.log('<--Edit viewSpec-->', this.viewSpec)
     // shortcuts
     this.type = viewSpec.type
 
     // .name is deprecated
     this.name = this.type
+
 
     this.initRenderQueue()
     this.initHiddenDays()
@@ -200,6 +207,7 @@ export default abstract class View extends InteractiveDateComponent {
 
 
   setDate(date) {
+    console.log(date)
     let currentDateProfile = this.get('dateProfile')
     let newDateProfile = this.dateProfileGenerator.build(date, undefined, true) // forceToValid=true
 
@@ -207,6 +215,9 @@ export default abstract class View extends InteractiveDateComponent {
       !currentDateProfile ||
       !currentDateProfile.activeUnzonedRange.equals(newDateProfile.activeUnzonedRange)
     ) {
+      console.log('newDateProfile',newDateProfile)
+      console.log(moment(newDateProfile.currentUnzonedRange.startMs))
+      console.log(moment(newDateProfile.currentUnzonedRange.endMs))
       this.set('dateProfile', newDateProfile)
     }
   }
@@ -327,7 +338,7 @@ export default abstract class View extends InteractiveDateComponent {
   triggerViewRender() {
     this.publiclyTrigger('viewRender', {
       context: this,
-      args: [ this, this.el ]
+      args: [this, this.el]
     })
   }
 
@@ -335,7 +346,7 @@ export default abstract class View extends InteractiveDateComponent {
   triggerViewDestroy() {
     this.publiclyTrigger('viewDestroy', {
       context: this,
-      args: [ this, this.el ]
+      args: [this, this.el]
     })
   }
 
@@ -547,7 +558,7 @@ export default abstract class View extends InteractiveDateComponent {
 
 
   applyDateScroll(scroll) {
-     // subclasses must implement
+    // subclasses must implement
   }
 
 
@@ -742,7 +753,7 @@ export default abstract class View extends InteractiveDateComponent {
       this.unrenderSelection()
       this.publiclyTrigger('unselect', {
         context: this,
-        args: [ ev, this ]
+        args: [ev, this]
       })
     }
   }
@@ -759,7 +770,7 @@ export default abstract class View extends InteractiveDateComponent {
     ) {
       this.unselectEventInstance()
 
-      this.getEventSegs().forEach(function(seg) {
+      this.getEventSegs().forEach(function (seg) {
         if (
           seg.footprint.eventInstance === eventInstance &&
           seg.el // necessary?
@@ -776,7 +787,7 @@ export default abstract class View extends InteractiveDateComponent {
   unselectEventInstance() {
     if (this.selectedEventInstance) {
 
-      this.getEventSegs().forEach(function(seg) {
+      this.getEventSegs().forEach(function (seg) {
         if (seg.el) { // necessary?
           seg.el.removeClass('fc-selected')
         }
@@ -843,7 +854,7 @@ export default abstract class View extends InteractiveDateComponent {
   triggerBaseRendered() {
     this.publiclyTrigger('viewRender', {
       context: this,
-      args: [ this, this.el ]
+      args: [this, this.el]
     })
   }
 
@@ -851,7 +862,7 @@ export default abstract class View extends InteractiveDateComponent {
   triggerBaseUnrendered() {
     this.publiclyTrigger('viewDestroy', {
       context: this,
-      args: [ this, this.el ]
+      args: [this, this.el]
     })
   }
 
@@ -862,7 +873,7 @@ export default abstract class View extends InteractiveDateComponent {
     let dateProfile = this.calendar.footprintToDateProfile(footprint) // abuse of "Event"DateProfile?
     this.publiclyTrigger('dayClick', {
       context: dayEl,
-      args: [ dateProfile.start, ev, this ]
+      args: [dateProfile.start, ev, this]
     })
   }
 
@@ -963,7 +974,7 @@ export default abstract class View extends InteractiveDateComponent {
   // If the initial value of `date` is not a hidden day, don't do anything.
   // Pass `isExclusive` as `true` if you are dealing with an end date.
   // `inc` defaults to `1` (increment one day forward each time)
-  skipHiddenDays(date, inc= 1, isExclusive= false) {
+  skipHiddenDays(date, inc = 1, isExclusive = false) {
     let out = date.clone()
     while (
       this.isHiddenDayHash[(out.day() + (isExclusive ? inc : 0) + 7) % 7]
@@ -979,47 +990,47 @@ View.prototype.usesMinMaxTime = false
 View.prototype.dateProfileGeneratorClass = DateProfileGenerator
 
 
-View.watch('displayingDates', [ 'isInDom', 'dateProfile' ], function(deps) {
+View.watch('displayingDates', ['isInDom', 'dateProfile'], function (deps) {
   this.requestDateRender(deps.dateProfile)
-}, function() {
+}, function () {
   this.requestDateUnrender()
 })
 
 
-View.watch('displayingBusinessHours', [ 'displayingDates', 'businessHourGenerator' ], function(deps) {
+View.watch('displayingBusinessHours', ['displayingDates', 'businessHourGenerator'], function (deps) {
   this.requestBusinessHoursRender(deps.businessHourGenerator)
-}, function() {
+}, function () {
   this.requestBusinessHoursUnrender()
 })
 
 
-View.watch('initialEvents', [ 'dateProfile' ], function(deps) {
+View.watch('initialEvents', ['dateProfile'], function (deps) {
   return this.fetchInitialEvents(deps.dateProfile)
 })
 
 
-View.watch('bindingEvents', [ 'initialEvents' ], function(deps) {
+View.watch('bindingEvents', ['initialEvents'], function (deps) {
   this.setEvents(deps.initialEvents)
   this.bindEventChanges()
-}, function() {
+}, function () {
   this.unbindEventChanges()
   this.unsetEvents()
 })
 
 
-View.watch('displayingEvents', [ 'displayingDates', 'hasEvents' ], function() {
+View.watch('displayingEvents', ['displayingDates', 'hasEvents'], function () {
   this.requestEventsRender(this.get('currentEvents'))
-}, function() {
+}, function () {
   this.requestEventsUnrender()
 })
 
 
-View.watch('title', [ 'dateProfile' ], function(deps) {
+View.watch('title', ['dateProfile'], function (deps) {
   return (this.title = this.computeTitle(deps.dateProfile)) // assign to View for legacy reasons
 })
 
 
-View.watch('legacyDateProps', [ 'dateProfile' ], function(deps) {
+View.watch('legacyDateProps', ['dateProfile'], function (deps) {
   let calendar = this.calendar
   let dateProfile = deps.dateProfile
 

@@ -129,8 +129,6 @@ export default class DayGridEventRenderer extends EventRenderer {
       if (levelSegs) {
         for (j = 0; j < levelSegs.length; j++) { // iterate through segments in level
           seg = levelSegs[j]
-
-          console.log(seg)
           emptyCellsUntil(seg.leftCol)
           // create a container that occupies or more columns. append the event element.
           td = $('<td class="fc-event-container"/>').append(seg.el)

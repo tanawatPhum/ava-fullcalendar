@@ -58,6 +58,7 @@ export default class Toolbar {
     let calendar = this.calendar
     let theme = calendar.theme
     let optionsManager = calendar.optionsManager
+    console.log(optionsManager)
     let viewSpecManager = calendar.viewSpecManager
     let sectionEl = $('<div class="fc-' + position + '"/>')
     let buttonStr = this.toolbarOptions.layout[position]
