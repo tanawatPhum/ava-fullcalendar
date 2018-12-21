@@ -130,9 +130,11 @@ export default class EventRenderer {
       }, 100)
       let eventRenderer = this
       $('td .fc-day').click(function (ev: any) {
-        $('td .fc-day').removeClass('fc-day-active')
+        $('.fc-day-active').remove()
+        // $('td .fc-day').removeClass('fc-day-active')
         if (!$(this).hasClass('fc-today')) {
-          $(this).addClass('fc-day-active')
+          $(this).html('<div class="fc-day-active"></div>')
+          // $(this).addClass('fc-day-active')
         }
         eventRenderer.setListCardEvent(fgRanges, ev.target.dataset.date.toString())
       })
