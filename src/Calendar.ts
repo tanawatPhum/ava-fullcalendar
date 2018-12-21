@@ -1066,13 +1066,16 @@ export default class Calendar {
     if (window['isMobile']) {
       singleRawSource.forEach(element => {
         if (element.start !== element.end && element.end) {
-          let startDay = moment(element.start)
-          let endDay = moment(element.end)
+          console.log(element.end)
+          let startDay = moment(JSON.parse(JSON.stringify(element.start)))
+          let endDay = moment(JSON.parse(JSON.stringify(element.end)))
           let diffDay = endDay.diff(startDay, 'days')
+          element.backupEnd = moment(JSON.parse(JSON.stringify(element.end)))
           element.end = null
-          for (let i = 1; i < diffDay; i++) {
+          for (let i = 1; i < diffDay + 1; i++) {
             let newElement = JSON.parse(JSON.stringify(element))
             newElement.start = moment(newElement.start).set('date', moment(newElement.start).get('date') + i).format('YYYY-MM-DD')
+            newElement.backupEnd = moment(JSON.parse(JSON.stringify(element.backupEnd)))
             newElement.end = null
             console.log(newElement)
             singleRawSource.push(newElement)

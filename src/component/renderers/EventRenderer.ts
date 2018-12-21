@@ -148,11 +148,17 @@ export default class EventRenderer {
     let segs = this.component.eventFootprintsToSegs(eventFootprints)
     let htmlBasicViewEventList = ''
     for (let fgRange in fgRanges) {
-      let eventStartDate = fgRanges[fgRange]
-        .eventInstance.def.dateProfile.start
-
+      // tslint:disable-next-line:radix
+      let seg = segs[parseInt(fgRange)].footprint.getEventLegacy()
+      let eventStartDate = seg.start
+      let eventEndDate = null
+      if (seg.backupEnd) {
+        eventEndDate = seg.backupEnd.format('YYYY-MMM-DD HH:mm')
+      }
       if (eventStartDate.format('YYYY-MM-DD') === targetDate) {
-        htmlBasicViewEventList += '<div class="eventCard">' + '<div id="' + fgRange + '" class="eventBox"></div>' + '<div class="statBarEvneList"></div>' + '<span class="eventCardTitle">' + fgRanges[fgRange].eventDef.title + '</span>' + '<span class="eventCardTime">' + eventStartDate.format('HH:mm') + '</span>' + '<span class="eventCardDetail">' + 'Lorem ipsum dolor sit amet...' + '</span>' + '</div>'
+        console.log(eventStartDate)
+        // if(eventStartDate.format('HH:mm'))
+        htmlBasicViewEventList += '<div class="eventCard">' + '<div id="' + fgRange + '" class="eventBox"></div>' + '<div class="statBarEvneList"></div>' + '<span class="eventCardTitle">' + fgRanges[fgRange].eventDef.title + '</span>' + '<span class="eventCardTime">' + eventStartDate.format('YYYY-MMM-DD HH:mm') + '-' + eventEndDate + '</span>' + '<span class="eventCardDetail">' + 'Lorem ipsum dolor sit amet...' + '</span>' + '</div>'
       }
     }
 
@@ -162,12 +168,15 @@ export default class EventRenderer {
     $('#basicViewEventList').remove()
     $('.fc-basic-view')
       .after('<div id="basicViewEventList">' + htmlBasicViewEventList + '</div>')
-    $('.eventBox',).on('click', function (e) {
+    $('.eventBox').on('click', function (e) {
       // tslint:disable-next-line:radix
       let seg = segs[parseInt(e.target.id)]
+      let modifySeg = seg.footprint.getEventLegacy()
+      modifySeg.end = modifySeg.backupEnd
+      delete modifySeg.backupEnd
       this.component.publiclyTrigger('eventClick', { // can return `false` to cancel
         context: e,
-        args: [seg.footprint.getEventLegacy(), e, this.view]
+        args: [modifySeg, e, this.view]
       })
     }.bind(this))
   }
