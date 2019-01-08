@@ -1,7 +1,6 @@
 /* BasicView
 --------------------------------------------------------------------------------------------------*/
 
-
 /* day row structure */
 
 .fc-day-top {
@@ -10,8 +9,8 @@
 }
 
 .fc-day-active {
-  background: rgba(134, 134, 134, 0.23) !important;
-  width: 52px;
+  background: rgba(158, 158, 158, 0.18) !important;
+  height: 53px;
   border-radius: 50px;
 }
 
@@ -27,7 +26,6 @@
   /* ensure that all rows are at least this tall */
 }
 
-
 /* a "rigid" row will take up a constant amount of height because content-skeleton is absolute */
 
 .fc-row.fc-rigid {
@@ -40,7 +38,6 @@
   left: 0;
   right: 0;
 }
-
 
 /* week and day number styling */
 
@@ -84,7 +81,6 @@
   color: #808080;
 }
 
-
 /* when week/day number have own column */
 
 .fc-basic-view td.fc-week-number {
@@ -103,13 +99,55 @@
   }
 }
 
-@media only screen and (min-width: 320px) and (max-width: 480px) {
+// @media only screen and (max-width: 320px) {
+//     .fc-toolbar .fc-right .fc-state-default {
+//         padding: 4px 5px !important;
+//     }
+//     .fc-basic-view .fc-body .fc-row {
+//         min-height: 46px !important;
+//         height: 46px !important;
+//     }
+//     .fc-day-active {
+//         background: rgba(134, 134, 134, 0.23) !important;
+//         width: 45px;
+//         border-radius: 50px;
+//     }
+//     .dot-event {
+//         background: #afafaf;
+//         width: 6px;
+//         height: 6px;
+//         margin: 0px auto 10px!important;
+//         border-radius: 50%;
+//     }
+// }
+@media only screen and (max-width: 414px) {
+  .fc-toolbar .fc-right .fc-state-default {
+    padding: 4px 5px !important;
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  .fc-toolbar .fc-right .fc-state-default {
+    padding: 4px 5px !important;
+  }
+
+  .fc-toolbar h2 {
+    font-size: 19px !important;
+  }
+}
+
+@media only screen and (max-width: 480px) {
   html {
     background: #EFEFEF;
   }
 
   body {
     margin: 0px !important;
+  }
+
+  .fc-view-container {
+    background: white;
+    padding-top: 1em;
   }
 
   // Header //
@@ -142,11 +180,20 @@
   // }
   .fc-view.fc-basic-view .fc-bg td.fc-today {
     // background: #2196f33b !important;
-    background: rgba(255, 49, 34, 0.23) !important;
-    border-radius: 50px;
-    width: 52px;
+    // background: rgba(255, 49, 34, 0.23) !important;
+    background: rgba(255, 49, 34, 0.14) !important;
+    border-radius: 50px; // width: 49px;
   }
 
+  // .fc-view.fc-basic-view .fc-bg td {
+  //     width: 49px;
+  // }
+  // .fc-bg table td {
+  //     width: 49px;
+  // }
+  // .fc-content-skeleton .fc-day-top {
+  //     width: 49px;
+  // }
   .fc-ltr .fc-basic-view .fc-day-top .fc-day-number {
     // float: right; 
     float: unset !important;
@@ -177,9 +224,9 @@
 
   .fc-toolbar.fc-header-toolbar {
     // padding: 0 1.5rem;
-    background-color: #ff7979;
+    background-color: #FF6565; // padding: 0 0.7rem;
     padding: 0 0.7rem;
-    margin-bottom: 1em;
+    margin-bottom: 0em !important;
     border-bottom: 1px solid #e0e0e0;
     text-transform: uppercase;
   }
@@ -206,29 +253,39 @@
   }
 
   .eventCard {
-    position: relative;
-    // margin: 10px;
+    position: relative; // margin: 10px;
     margin: 15px 10px 10px;
-    padding: 10px 23px;
-    height: 44px;
-    // line-height: 64px;
+    padding: 10px 10px 10px 76px;
+    // padding: 10px 80px;
+    height: 44px; // line-height: 64px;
     border-radius: 5px;
     background: white;
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
   }
 
-  .statBarEvneList {
+  .statBarEventList {
     position: absolute;
     left: 1px;
     top: 0;
-    width: 6px;
+    width: 64px;
     height: 64px;
     background: #ff7979;
     border-radius: 5px 0px 0px 5px;
   }
 
+  .statBarEventList span {
+    display: block;
+    text-align: center;
+    height: 64px;
+    line-height: 64px;
+    color: white;
+    font-weight: 400;
+    font-size: 26px;
+  }
+
   .eventCardTitle {
     font-size: 15px;
+    font-weight: 500;
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 1;
@@ -248,6 +305,7 @@
 
   .eventCardTime {
     // float: right;
+    color: #AAAAAA;
     font-size: 13px;
     position: absolute;
     top: 12px;
@@ -265,21 +323,21 @@
     font-weight: 700;
   }
 
-  //   // For Button Month
-  //   .fc-button-group button.fc-month-button {
+  // // For Button Month
+  // .fc-button-group button.fc-month-button {
   //     content: '';
   //     visibility: hidden;
   //     text-indent: -9999px;
   //     line-height: 0;
-  //   }
-  //   .fc-button-group button.fc-month-button:after {
+  // }
+  // .fc-button-group button.fc-month-button:after {
   //     content: 'M';
   //     visibility: visible;
   //     text-indent: 0px;
   //     text-indent: 0;
   //     display: block;
   //     font-weight: 700;
-  //   }
+  // } 
   //   //* For Button Month *//
   //   // For Button Week
   //   .fc-button-group button.fc-agendaWeek-button {
@@ -340,7 +398,7 @@
   .fc-toolbar .fc-right {
     float: unset !important;
     position: relative;
-    top: 11px;
+    top: 18px;
     display: flex;
     justify-content: center;
   }
@@ -350,15 +408,17 @@
   }
 
   .fc-prev-button.fc-button.fc-state-default.fc-corner-left {
-    position: absolute;
-    top: 18px;
-    left: 11px;
+    // position: relative;
+    // top: -56px;
+    // left: -140px;
+    float: left;
   }
 
   .fc-next-button.fc-button.fc-state-default.fc-corner-right {
-    position: absolute;
-    right: 0;
-    top: 18px;
+    // position: relative;
+    // top: -56px;
+    // left: 140px;
+    float: right;
   }
 
   .fc-row .fc-bg>.fc-unthemed td.fc-today {
@@ -366,10 +426,14 @@
   }
 
   #basicViewEventList {
-    position: absolute;
-    width: 100%;
+    padding: 1px;
+    background: #EFEFEF;
   }
 
+  // #basicViewEventList {
+  //     position: absolute;
+  //     width: 100%;
+  // }
   .noEvent {
     text-align: center;
     font-size: 18px;
@@ -379,11 +443,22 @@
   }
 
   .noEventImg {
-    margin: 14px;
+    // background-image: url(calendar.svg); :: Don't Edit this line. // You can edit in fullcalendar.css //
+    background-repeat: no-repeat;
+    height: 90px;
+    background-size: auto 80px;
+    text-align: center;
+    background-position: center;
+    margin: 10px;
   }
 
   .noEventImg img {
     width: 73px;
+  }
+
+  .fc-scroller {
+    overflow: unset !important;
+    height: unset !important;
   }
 
   //Basic View
@@ -392,12 +467,56 @@
   }
 
   //Agendar View
-  // .fc-scroller.fc-time-grid-container{
-  //   height: 100vh !important;
-  // }
+  .fc-scroller.fc-time-grid-container {
+    overflow: unset !important;
+    height: unset !important;
+  }
 
   .fc-basic-view .fc-body .fc-row {
-    min-height: 53px;
+    min-height: 54px;
     /* ensure that all rows are at least this tall */
+  }
+
+  //Background Today
+  .fc-content-skeleton .fc-day-top .fc-fri .fc-future {
+    position: relative;
+    top: -14px;
+    background: #ff6565;
+    width: 51px;
+    height: 52px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+  }
+
+  .fc-list-item::before {
+    content: ' ';
+    height: 100%;
+    width: 1px;
+    background-color: #333333;
+    position: absolute;
+    top: 0;
+    left: 2.5em;
+    z-index: -1;
+  }
+
+  .fc-content-skeleton td {
+    text-align: center;
+  }
+
+  .fc-row .fc-widget-header {
+    color: #333333;
+  }
+
+  .fc-center {
+    width: 100%;
+    position: relative;
+    top: -56px;
+  }
+
+  .fc-center .fc-button-group {
+    width: 100%;
   }
 }

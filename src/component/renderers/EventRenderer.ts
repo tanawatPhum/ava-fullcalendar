@@ -155,17 +155,17 @@ export default class EventRenderer {
       let eventStartDate = seg.start
       let eventEndDate = null
       if (seg.backupEnd) {
-        eventEndDate = seg.backupEnd.format('YYYY-MMM-DD HH:mm')
+        eventEndDate = seg.backupEnd.format('MMM/DD/YYYY HH:mm')
       }
       if (eventStartDate.format('YYYY-MM-DD') === targetDate) {
         console.log(eventStartDate)
-        // if(eventStartDate.format('HH:mm'))
-        htmlBasicViewEventList += '<div class="eventCard">' + '<div id="' + fgRange + '" class="eventBox"></div>' + '<div class="statBarEvneList"></div>' + '<span class="eventCardTitle">' + fgRanges[fgRange].eventDef.title + '</span>' + '<span class="eventCardTime">' + eventStartDate.format('YYYY-MMM-DD HH:mm') + '-' + eventEndDate + '</span>' + '<span class="eventCardDetail">' + 'Lorem ipsum dolor sit amet...' + '</span>' + '</div>'
+        // if(eventStartDate.format('HH:mm')) //eventEndDate
+        htmlBasicViewEventList += '<div class="eventCard">' + '<div id="' + fgRange + '" class="eventBox"></div>' + '<div class="statBarEventList"><span>' + eventStartDate.format('DD') + '</span></div>' + '<span class="eventCardTitle">' + fgRanges[fgRange].eventDef.title + '</span>' + '<span class="eventCardTime">' + '' + '</span>' + '<span class="eventCardDetail">' + eventStartDate.format('MMM/DD/YYYY HH:mm') + ' - ' + eventEndDate + '</span>' + '</div>'
       }
     }
 
     if (!htmlBasicViewEventList) {
-      htmlBasicViewEventList += '<div class="noEvent">' + ' <div class="noEventImg"> <img src="../dist/calendar.svg"> </div>' + ' No events or task ' + '</div>'
+      htmlBasicViewEventList += '<div class="noEvent">' + ' <div class="noEventImg">  </div>' + ' No events or task ' + '</div>'
     }
     $('#basicViewEventList').remove()
     $('.fc-basic-view')
