@@ -150,6 +150,7 @@ export default class ListView extends View {
 
   // render the event segments in the view
   renderSegList(allSegs) {
+ 
     let segsByDay = this.groupSegsByDay(allSegs) // sparse array
     let dayIndex
     let daySegs

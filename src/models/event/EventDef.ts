@@ -222,6 +222,7 @@ EventDef.defineStandardProps({
 
   // automatically assigned (`true`)
   title: true,
+  description: true,
   url: true,
   rendering: true,
   constraint: true,

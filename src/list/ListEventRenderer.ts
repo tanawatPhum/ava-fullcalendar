@@ -15,6 +15,7 @@ export default class ListEventRenderer extends EventRenderer {
 
   // generates the HTML for a single event row
   fgSegHtml(seg) {
+
     let view = this.view
     let calendar = view.calendar
     let theme = calendar.theme
@@ -22,7 +23,7 @@ export default class ListEventRenderer extends EventRenderer {
     let eventDef = eventFootprint.eventDef
     let componentFootprint = eventFootprint.componentFootprint
     let url = eventDef.url
-    let classes = [ 'fc-list-item' ].concat(this.getClasses(eventDef))
+    let classes = ['fc-list-item'].concat(this.getClasses(eventDef))
     let bgColor = this.getBgColor(eventDef)
     let timeHtml
 
@@ -46,26 +47,49 @@ export default class ListEventRenderer extends EventRenderer {
     if (url) {
       classes.push('fc-has-url')
     }
-
-    return '<tr class="' + classes.join(' ') + '">' +
-      (this.displayEventTime ?
-        '<td class="fc-list-item-time ' + theme.getClass('widgetContent') + '">' +
+    let htmlReturn = ''
+    if (window['isMobile']) {
+      htmlReturn = '<tr class="' + classes.join(' ') + '">' +
+        (this.displayEventTime ?
+          '<td class="fc-list-item-time ' + theme.getClass('widgetContent') + '">' +
           (timeHtml || '') +
-        '</td>' :
-        '') +
-      '<td class="fc-list-item-marker ' + theme.getClass('widgetContent') + '">' +
+          '</td>' :
+          '') +
+        '<td class="fc-list-item-marker ' + theme.getClass('widgetContent') + '">' +
         '<span class="fc-event-dot"' +
         (bgColor ?
           ' style="background-color:' + bgColor + '"' :
           '') +
         '></span>' +
-      '</td>' +
-      '<td class="fc-list-item-title ' + theme.getClass('widgetContent') + '">' +
+        '</td>' +
+        '<td class="fc-list-item-title ' + theme.getClass('widgetContent') + '">' +
         '<a' + (url ? ' href="' + htmlEscape(url) + '"' : '') + '>' +
-          htmlEscape(eventDef.title || '') +
+        htmlEscape(eventDef.title || '') + htmlEscape(eventDef.description || '') +
         '</a>' +
-      '</td>' +
-    '</tr>'
+        '</td>' +
+        '</tr>'
+    } else {
+      htmlReturn = '<tr class="' + classes.join(' ') + '">' +
+        (this.displayEventTime ?
+          '<td class="fc-list-item-time ' + theme.getClass('widgetContent') + '">' +
+          (timeHtml || '') +
+          '</td>' :
+          '') +
+        '<td class="fc-list-item-marker ' + theme.getClass('widgetContent') + '">' +
+        '<span class="fc-event-dot"' +
+        (bgColor ?
+          ' style="background-color:' + bgColor + '"' :
+          '') +
+        '></span>' +
+        '</td>' +
+        '<td class="fc-list-item-title ' + theme.getClass('widgetContent') + '">' +
+        '<a' + (url ? ' href="' + htmlEscape(url) + '"' : '') + '>' +
+        htmlEscape(eventDef.title || '') +
+        '</a>' +
+        '</td>' +
+        '</tr>'
+    }
+    return htmlReturn
   }
 
 
