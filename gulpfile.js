@@ -1,5 +1,6 @@
 const gulp = require('gulp')
 const del = require('del')
+const image = require('gulp-image');
 
 require('./tasks/webpack')
 require('./tasks/ts-types')
@@ -11,39 +12,45 @@ require('./tasks/bump')
 require('./tasks/example-repos')
 
 // when running just `gulp`
-gulp.task('default', [ 'dist' ])
+gulp.task('default', ['dist', 'image'])
+
+gulp.task('image', function() {
+    gulp.src('./images/*')
+        .pipe(image())
+        .pipe(gulp.dest('./dest'));
+});
 
 // everything needed for running demos and developing
 gulp.task('dev', [
-  'webpack:dev',
-  'ts-types'
+    'webpack:dev',
+    'ts-types'
 ])
 
 // watch anything that needs to be built
 gulp.task('watch', [
-  'webpack:watch',
-  'ts-types:watch'
+    'webpack:watch',
+    'ts-types:watch',
 ])
 
 // generates all files that end up in package manager release
 gulp.task('dist', [
-  'webpack',
-  'ts-types',
-  'minify'
+    'webpack',
+    'ts-types',
+    'minify'
 ])
 
 // like dist, but runs tests and linting, and generates archive
 gulp.task('release', [
-  'example-repos:build',
-  'lint',
-  'dist',
-  'archive',
-  'test:single' // headless, single run
+    'example-repos:build',
+    'lint',
+    'dist',
+    'archive',
+    'test:single' // headless, single run
 ])
 
 // group these somewhat unrelated tasks together for CI
-gulp.task('lint-and-example-repos', [ 'lint', 'example-repos:build' ])
+gulp.task('lint-and-example-repos', ['lint', 'example-repos:build'])
 
 gulp.task('clean', function() {
-  return del([ 'dist/', 'tmp/', '.awcache/' ])
+    return del(['dist/', 'tmp/', '.awcache/'])
 })
