@@ -8,10 +8,14 @@
   vertical-align: middle;
 }
 
+.fc th, .fc td{
+  border-width: 0px !important;
+}
+
 .fc-day-active {
   background: rgba(158, 158, 158, 0.18) !important;
-  height: 53px;
-  border-radius: 50px;
+  height: 54px;
+  // border-radius: 50px;
 }
 
 .fc-basicWeek-view .fc-content-skeleton,
@@ -207,7 +211,7 @@
     // background: #2196f33b !important;
     // background: rgba(255, 49, 34, 0.23) !important;
     background: rgba(255, 49, 34, 0.14) !important;
-    border-radius: 50px; // width: 49px;
+    // border-radius: 50px;
   }
 
   // .fc-view.fc-basic-view .fc-bg td {
@@ -472,6 +476,7 @@
 
   .noEventImg {
     // background-image: url(calendar.svg); :: Don't Edit this line. // You can edit in fullcalendar.css //
+    background-image: url('https://i.ibb.co/sgdjKcL/calendar.png');
     background-repeat: no-repeat;
     height: 90px;
     background-size: auto 80px;
@@ -614,5 +619,6 @@
   .fc-unthemed .fc-list-empty {
     background: white !important;
   }
+  
 
 }

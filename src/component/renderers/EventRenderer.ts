@@ -165,7 +165,7 @@ export default class EventRenderer {
     }
 
     if (!htmlBasicViewEventList) {
-      htmlBasicViewEventList += '<div class="noEvent">' + ' <div class="noEventImg">  </div>' + ' No events or task ' + '</div>'
+      htmlBasicViewEventList += '<div class="noEvent">' + ' <div class="noEventImg">  </div>' + ' No events to display ' + '</div>'
     }
     $('#basicViewEventList').remove()
     $('.fc-basic-view')
