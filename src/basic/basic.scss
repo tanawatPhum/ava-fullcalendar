@@ -8,9 +8,6 @@
   vertical-align: middle;
 }
 
-.fc th, .fc td{
-  border-width: 0px !important;
-}
 
 .fc-day-active {
   background: rgba(158, 158, 158, 0.18) !important;
@@ -620,5 +617,8 @@
     background: white !important;
   }
   
+  .fc th, .fc td{
+    border-width: 0px !important;
+  }
 
 }
