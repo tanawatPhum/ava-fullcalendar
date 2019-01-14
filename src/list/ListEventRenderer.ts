@@ -48,25 +48,44 @@ export default class ListEventRenderer extends EventRenderer {
       classes.push('fc-has-url')
     }
     let htmlReturn = ''
+    // if (window['isMobile']) {
+    //   htmlReturn = '<tr class="' + classes.join(' ') + '">' +
+    //     (this.displayEventTime ?
+    //       '<td class="fc-list-item-time ' + theme.getClass('widgetContent') + '">' +
+    //       (timeHtml || '') +
+    //       '</td>' :
+    //       '') +
+    //     '<td class="fc-list-item-marker ' + theme.getClass('widgetContent') + '">' +
+    //     '<span class="fc-event-dot"' +
+    //     (bgColor ?
+    //       ' style="background-color:' + bgColor + '"' :
+    //       '') +
+    //     '></span>' +
+    //     '</td>' +
+    //     '<td class="fc-list-item-title ' + theme.getClass('widgetContent') + '">' +
+    //     '<a' + (url ? ' href="' + htmlEscape(url) + '"' : '') + '>' +
+    //     htmlEscape(eventDef.title || '') + htmlEscape(eventDef.description || '') +
+    //     '</a>' +
+    //     '</td>' +
+    //     '</tr>'
+    // } 
     if (window['isMobile']) {
       htmlReturn = '<tr class="' + classes.join(' ') + '">' +
         (this.displayEventTime ?
-          '<td class="fc-list-item-time ' + theme.getClass('widgetContent') + '">' +
-          (timeHtml || '') +
+          '<td class="fc-list-item-marker va-middle ' + theme.getClass('widgetContent') + '">' +
+          '<span class="fc-event-dot"' +
+          (bgColor ?
+            ' style="background-color:' + bgColor + '"' :
+            '') +
+          '></span>' +
           '</td>' :
           '') +
-        '<td class="fc-list-item-marker ' + theme.getClass('widgetContent') + '">' +
-        '<span class="fc-event-dot"' +
-        (bgColor ?
-          ' style="background-color:' + bgColor + '"' :
-          '') +
-        '></span>' +
-        '</td>' +
         '<td class="fc-list-item-title ' + theme.getClass('widgetContent') + '">' +
         '<a' + (url ? ' href="' + htmlEscape(url) + '"' : '') + '>' +
-        htmlEscape(eventDef.title || '') + htmlEscape(eventDef.description || '') +
+        '<span class="event-list-title">' +htmlEscape(eventDef.title || '') + '</span>' + 
+        '<span class="event-list-detail">' + htmlEscape(eventDef.description || '') + '</span>' +
         '</a>' +
-        '</td>' +
+        '</td>' + '<td>' + (timeHtml || '') + '</td>'
         '</tr>'
     } else {
       htmlReturn = '<tr class="' + classes.join(' ') + '">' +
@@ -75,7 +94,7 @@ export default class ListEventRenderer extends EventRenderer {
           (timeHtml || '') +
           '</td>' :
           '') +
-        '<td class="fc-list-item-marker ' + theme.getClass('widgetContent') + '">' +
+        '<td class="fc-list-item-marker' + theme.getClass('widgetContent') + '">' +
         '<span class="fc-event-dot"' +
         (bgColor ?
           ' style="background-color:' + bgColor + '"' :

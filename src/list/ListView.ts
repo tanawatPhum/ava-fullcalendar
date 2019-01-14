@@ -139,14 +139,13 @@ export default class ListView extends View {
     this.contentEl.html(
       '<div class="fc-list-empty-wrap2">' + // TODO: try less wraps
       '<div class="fc-list-empty-wrap1">' +
-      '<div class="fc-list-empty">' +
+      '<div class="fc-list-empty">' + '<div class="noEventImg">  </div>' +
         htmlEscape(this.opt('noEventsMessage')) +
       '</div>' +
       '</div>' +
       '</div>'
     )
   }
-
 
   // render the event segments in the view
   renderSegList(allSegs) {
