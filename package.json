@@ -1,6 +1,6 @@
 {
-    "name": "fullcalendar",
-    "title": "FullCalendar",
+    "name": "ava-fullcalendar",
+    "title": "ava-FullCalendar",
     "description": "Full-sized drag & drop event calendar",
     "keywords": [
         "calendar",
@@ -12,7 +12,7 @@
     "bugs": "https://fullcalendar.io/wiki/Reporting-Bugs/",
     "repository": {
         "type": "git",
-        "url": "https://github.com/fullcalendar/fullcalendar.git"
+        "url": "https://github.com/tanawatPhum/ava-fullcalendar.git"
     },
     "license": "MIT",
     "author": {

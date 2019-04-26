@@ -269,6 +269,7 @@ export default class DayGridEventRenderer extends EventRenderer {
     let timeHtml = ''
     let timeText
     let titleHtml
+
     classes.unshift('fc-day-grid-event', 'fc-h-event')
 
     // Only display a timed events time if it is the starting segment
@@ -278,13 +279,18 @@ export default class DayGridEventRenderer extends EventRenderer {
         timeHtml = '<span class="fc-time">' + htmlEscape(timeText) + '</span>'
       }
     }
+    console.log(this.view)
     titleHtml =
       '<span class="fc-title">' +
       (htmlEscape(eventDef.title || '') || '&nbsp;') + // we always want one line of height
       '</span>'
     let htmlReturn = ''
     if (window['isMobile']) {
-      htmlReturn = '<div class="dot-event"></div>'
+      if (this.view.options.hasOwnProperty('isShowDotEvent') && !this.view.options.isShowDotEvent) {
+        htmlReturn = titleHtml
+      } else {
+        htmlReturn = '<div class="dot-event"></div>'
+      }
     } else {
       htmlReturn = '<a class="' + classes.join(' ') + '"' +
         (eventDef.url ?

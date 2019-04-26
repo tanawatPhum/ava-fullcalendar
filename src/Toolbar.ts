@@ -58,7 +58,7 @@ export default class Toolbar {
     let calendar = this.calendar
     let theme = calendar.theme
     let optionsManager = calendar.optionsManager
-    console.log(optionsManager)
+    console.log("optionsManager", optionsManager)
     let viewSpecManager = calendar.viewSpecManager
     let sectionEl = $('<div class="fc-' + position + '"/>')
     let buttonStr = this.toolbarOptions.layout[position]
@@ -89,29 +89,29 @@ export default class Toolbar {
           } else {
 
             if ((customButtonProps = calendarCustomButtons[buttonName])) {
-              buttonClick = function(ev) {
+              buttonClick = function (ev) {
                 if (customButtonProps.click) {
                   customButtonProps.click.call(buttonEl[0], ev)
                 }
               };
               (buttonIcon = theme.getCustomButtonIconClass(customButtonProps)) ||
-              (buttonIcon = theme.getIconClass(buttonName)) ||
-              (buttonText = customButtonProps.text)
+                (buttonIcon = theme.getIconClass(buttonName)) ||
+                (buttonText = customButtonProps.text)
             } else if ((viewSpec = viewSpecManager.getViewSpec(buttonName))) {
               this.viewsWithButtons.push(buttonName)
-              buttonClick = function() {
+              buttonClick = function () {
                 calendar.changeView(buttonName)
               };
               (buttonText = viewSpec.buttonTextOverride) ||
-              (buttonIcon = theme.getIconClass(buttonName)) ||
-              (buttonText = viewSpec.buttonTextDefault)
+                (buttonIcon = theme.getIconClass(buttonName)) ||
+                (buttonText = viewSpec.buttonTextDefault)
             } else if (calendar[buttonName]) { // a calendar method
-              buttonClick = function() {
+              buttonClick = function () {
                 calendar[buttonName]()
               };
               (buttonText = calendarButtonTextOverrides[buttonName]) ||
-              (buttonIcon = theme.getIconClass(buttonName)) ||
-              (buttonText = calendarButtonText[buttonName])
+                (buttonIcon = theme.getIconClass(buttonName)) ||
+                (buttonText = calendarButtonText[buttonName])
               //            ^ everything else is considered default
             }
 
@@ -133,10 +133,10 @@ export default class Toolbar {
 
               buttonEl = $( // type="button" so that it doesn't submit a form
                 '<button type="button" class="' + buttonClasses.join(' ') + '"' +
-                  buttonAriaAttr +
+                buttonAriaAttr +
                 '>' + buttonInnerHtml + '</button>'
               )
-                .click(function(ev) {
+                .click(function (ev) {
                   // don't process clicks for disabled buttons
                   if (!buttonEl.hasClass(theme.getClass('stateDisabled'))) {
 
@@ -152,7 +152,7 @@ export default class Toolbar {
                     }
                   }
                 })
-                .mousedown(function() {
+                .mousedown(function () {
                   // the *down* effect (mouse pressed in).
                   // only on buttons that are not the "active" tab, or disabled
                   buttonEl
@@ -160,12 +160,12 @@ export default class Toolbar {
                     .not('.' + theme.getClass('stateDisabled'))
                     .addClass(theme.getClass('stateDown'))
                 })
-                .mouseup(function() {
+                .mouseup(function () {
                   // undo the *down* effect
                   buttonEl.removeClass(theme.getClass('stateDown'))
                 })
                 .hover(
-                  function() {
+                  function () {
                     // the *hover* effect.
                     // only on buttons that are not the "active" tab, or disabled
                     buttonEl
@@ -173,7 +173,7 @@ export default class Toolbar {
                       .not('.' + theme.getClass('stateDisabled'))
                       .addClass(theme.getClass('stateHover'))
                   },
-                  function() {
+                  function () {
                     // undo the *hover* effect
                     buttonEl
                       .removeClass(theme.getClass('stateHover'))
@@ -210,6 +210,12 @@ export default class Toolbar {
 
 
   updateTitle(text) {
+    if (this.calendar.optionsManager.overrides.locale === 'th') {
+      let year = text.match(/\d{4}/)
+      // tslint:disable-next-line:radix
+      let BEYear = year && parseInt(year[0]) + 543
+      text = text.replace(/\d{4}/,BEYear)
+    }
     if (this.el) {
       this.el.find('h2').text(text)
     }

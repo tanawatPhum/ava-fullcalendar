@@ -1,6 +1,5 @@
 import * as $ from 'jquery'
-import { compareByFieldSpecs, proxy, durationHasTime } from '../../util'
-import * as moment from 'moment'
+import { compareByFieldSpecs, proxy } from '../../util'
 export default class EventRenderer {
 
   view: any
@@ -101,7 +100,7 @@ export default class EventRenderer {
       //   fgRanges.push.apply(fgRanges, eventRanges)
       // }
     }
-    console.log(fgRanges)
+    // console.log(fgRanges)
     // if ( this.view.type === 'listWeek' && this.view.subType === 'day') {
     // for (let fgRange in fgRanges) {
     //   if (fgRanges[fgRange].eventInstance.def.dateProfile.end) {
@@ -124,6 +123,7 @@ export default class EventRenderer {
     // }
     this.renderBgRanges(bgRanges)
     this.renderFgRanges(fgRanges)
+    console.log('👉 View Detail:', this.view)
     if (this.view.type === 'month' && window['isMobile']) {
       setTimeout(() => {
         this.setListCardEvent(fgRanges, $('td .fc-day.fc-today').data('date'))
@@ -136,16 +136,17 @@ export default class EventRenderer {
           $(this).html('<div class="fc-day-active"></div>')
           // $(this).addClass('fc-day-active')
         }
-        eventRenderer.setListCardEvent(fgRanges, ev.target.dataset.date.toString())
+        eventRenderer.setListCardEvent(fgRanges, ev.target.dataset.date && ev.target.dataset.date.toString())
       })
+
     }
     // let eventFootprints = this.component.eventRangesToEventFootprints(fgRanges[0])
     // let segs = this.component.eventFootprintsToSegs(eventFootprints)
     // // console.log(segs[0].footprint.getEventLegacy())
     // console.log(segs)
-
   }
   setListCardEvent(fgRanges, targetDate) {
+    if (this.view.options.hasOwnProperty('isShowList') && !this.view.options.isShowList)return
     let eventFootprints = this.component.eventRangesToEventFootprints(fgRanges)
     let segs = this.component.eventFootprintsToSegs(eventFootprints)
     let htmlBasicViewEventList = ''
@@ -158,7 +159,7 @@ export default class EventRenderer {
         eventEndDate = seg.backupEnd.format('MMM/DD/YYYY HH:mm')
       }
       if (eventStartDate.format('YYYY-MM-DD') === targetDate) {
-        console.log(eventStartDate)
+        // console.log(eventStartDate)
         // if(eventStartDate.format('HH:mm')) //eventEndDate
         htmlBasicViewEventList += '<div class="eventCard">' + '<div id="' + fgRange + '" class="eventBox"></div>' + '<div class="statBarEventList"><span>' + eventStartDate.format('DD') + '</span></div>' + '<span class="eventCardTitle">' + fgRanges[fgRange].eventDef.title + '</span>' + '<span class="eventCardTime">' + '' + '</span>' + '<span class="eventCardDetail">' + eventStartDate.format('MMM/DD/YYYY HH:mm') + ' - ' + eventEndDate + '</span>' + '</div>'
       }
@@ -193,7 +194,7 @@ export default class EventRenderer {
   renderFgRanges(eventRanges) {
     let eventFootprints = this.component.eventRangesToEventFootprints(eventRanges)
     let segs = this.component.eventFootprintsToSegs(eventFootprints)
-    console.log(segs)
+    // console.log(segs)
     // render an `.el` on each seg
     // returns a subset of the segs. segs that were actually rendered
     segs = this.renderFgSegEls(segs)
